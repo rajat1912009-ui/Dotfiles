@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+
+# Find all static images and mp4 videos recursively
+SELECTED=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.webp" -o -iname "*.mp4" \) | rofi -dmenu -i -p "Select Wallpaper")
+
+[ -z "$SELECTED" ] && exit 0
+
+EXT="${SELECTED##*.}"
+
+if [ "$EXT" = "mp4" ]; then
+    # 1. Kill any running static/video wallpaper instances
+    killall -9 mpvpaper swww-daemon 2>/dev/null
+    
+    # 2. Launch video wallpaper via VA-API hardware decoding
+    mpvpaper -o "no-audio --loop-playlist --hwdec=vaapi" eDP-1 "$SELECTED" &
+    
+    # 3. Extract a single frame to generate Caelestia's dynamic palette
+    TEMP_FRAME="/tmp/caelestia_video_frame.png"
+    ffmpeg -y -ss 00:00:01 -i "$SELECTED" -frames:v 1 "$TEMP_FRAME" 2>/dev/null
+    caelestia scheme "$TEMP_FRAME"
+else
+    # Static image: Hand off directly to Caelestia
+    caelestia wallpaper "$SELECTED"
+fi

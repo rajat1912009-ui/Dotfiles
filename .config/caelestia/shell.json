@@ -1,0 +1,39 @@
+{
+    "appearance": {
+        "transparency": {
+            "enabled": true
+        }
+    },
+    "bar": {
+        "activeWindow": {
+            "compact": false
+        },
+        "showOnHover": true,
+        "tray": {
+            "background": true,
+            "compact": false,
+            "recolour": true
+        }
+    },
+    "general": {
+        "apps": {
+            "terminal": [
+                "kitty"
+            ]
+        }
+    },
+    "services": {
+        "gpuType": "",
+        "lyricsBackend": "LRCLIB",
+        "smartScheme": true,
+        "useFahrenheit": false
+    },
+    "sidebar": {
+        "enabled": true
+    },
+    "utilities": {
+        "toasts": {
+            "kbLayoutChanged": false
+        }
+    }
+}

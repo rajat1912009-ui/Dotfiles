@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# 1. Toggle launcher using valid IPC
+caelestia shell drawers toggle launcher
+
+# 2. Wait for the drawer animation and focus lock
+sleep 0.01
+
+# 3. Type ">wallpaper" with 30ms inter-key delay
+wtype -d 5 ">wallpaper"
+
+# 4. Confirm selection mode
+sleep 0.2
+wtype -k Return

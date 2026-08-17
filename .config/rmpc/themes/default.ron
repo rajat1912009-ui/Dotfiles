@@ -1,0 +1,26 @@
+#![enable(implicit_some)]
+(
+    default_node: (
+        foreground: "Default",
+    ),
+    highlight: (
+        foreground: "White",
+        background: "White",
+    ),
+    active_tile_background: "Default",
+    active_tile_foreground: "Default",
+    inactive_tile_background: "Default",
+    inactive_tile_foreground: "White",
+    header_background: "Default",
+    header_foreground: "Default",
+    progress_bar: (
+        elapsed: "Magenta",
+        thumb: "Cyan",
+        track: "Black",
+    ),
+    status_bar: (
+        active_tile_foreground: "White",
+        inactive_tile_foreground: "White",
+    ),
+    window_border_type: rounded,
+)

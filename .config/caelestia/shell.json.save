@@ -1,0 +1,28 @@
+{fas
+    "appearance": {
+        "transparency": {
+            "enabled": true
+        }
+    },
+    "bar": {
+        "activeWindow": {
+            "compact": false
+        },
+        "showOnHover": true,
+        "tray": {
+            "background": true,
+            "compact": false,
+            "recolour": true
+        }
+    },
+    "general": {
+        "apps": {
+            "terminal": [
+                "kitty"
+            ]
+        }
+    },
+    "sidebar": {
+        "enabled": false
+    }
+}

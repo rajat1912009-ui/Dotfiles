@@ -1,0 +1,8 @@
+{
+  "record": {
+    "extraArgs": [
+      "-k", "hevc",
+      "-q", "high"
+    ]
+  }
+}
