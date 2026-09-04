@@ -6,32 +6,180 @@
     },
     "bar": {
         "activeWindow": {
-            "compact": false
+            "compact": true,
+            "inverted": false,
+            "showOnHover": false
+        },
+        "persistent": true,
+        "popouts": {
+            "activeWindow": true,
+            "tray": true
         },
         "showOnHover": true,
+        "statusIcons": [
+            {
+                "enabled": true,
+                "id": "lockStatus"
+            },
+            {
+                "enabled": false,
+                "id": "audio"
+            },
+            {
+                "enabled": false,
+                "id": "microphone"
+            },
+            {
+                "enabled": false,
+                "id": "kbLayout"
+            },
+            {
+                "enabled": true,
+                "id": "network"
+            },
+            {
+                "enabled": true,
+                "id": "bluetooth"
+            },
+            {
+                "enabled": true,
+                "id": "battery"
+            },
+            {
+                "enabled": true,
+                "id": "microphone"
+            },
+            {
+                "enabled": true,
+                "id": "audio"
+            }
+        ],
         "tray": {
-            "background": true,
-            "compact": false,
+            "background": false,
+            "compact": true,
             "recolour": true
+        },
+        "workspaces": {
+            "activeIndicator": true,
+            "activeTrail": true,
+            "occupiedBg": false,
+            "perMonitorWorkspaces": true,
+            "shown": 5
         }
+    },
+    "dashboard": {
+        "enabled": true,
+        "showMedia": true,
+        "showOnHover": true
     },
     "general": {
         "apps": {
+            "explorer": [
+                "yazi"
+            ],
+            "playback": [
+                "/usr/bin/vlc",
+                "--started-from-file"
+            ],
             "terminal": [
                 "kitty"
             ]
         }
     },
+    "launcher": {
+        "enableDangerousActions": false,
+        "favouriteApps": [
+            "org.kde.kdenlive",
+            "anki",
+            "org.kde.krita",
+            "kitty",
+            "localsend",
+            "nvim",
+            "vlc",
+            "com.ktechpit.whatsie",
+            "zen"
+        ],
+        "hiddenApps": [
+            "designer",
+            "qvidcap",
+            "qv4l2",
+            "linguist",
+            "qdbusviewer",
+            "assistant",
+            "micro",
+            "moebius",
+            "lstopo",
+            "firefox",
+            "nemo",
+            "org.gnome.FileRoller",
+            "cmake-gui",
+            "btop",
+            "avahi-discover",
+            "bvnc",
+            "bssh",
+            "com.saivert.pwvucontrol",
+            "rmpc",
+            "rofi",
+            "rofi-theme-selector",
+            "uuctl",
+            "xgps",
+            "xgpsspeed",
+            "org.zealdocs.zeal"
+        ],
+        "maxShown": 5,
+        "maxWallpapers": 7,
+        "showOnHover": false,
+        "useFuzzy": {
+            "actions": true,
+            "apps": true,
+            "schemes": true,
+            "variants": true,
+            "wallpapers": true
+        }
+    },
     "services": {
+        "defaultPlayer": "MPD",
         "gpuType": "",
-        "lyricsBackend": "LRCLIB",
+        "lyricsBackend": "Auto",
+        "maxVolume": 1,
         "smartScheme": true,
-        "useFahrenheit": false
+        "useFahrenheit": false,
+        "visualiserBars": 100
     },
     "sidebar": {
         "enabled": true
     },
     "utilities": {
+        "quickToggles": [
+            {
+                "enabled": true,
+                "id": "wifi"
+            },
+            {
+                "enabled": true,
+                "id": "bluetooth"
+            },
+            {
+                "enabled": true,
+                "id": "mic"
+            },
+            {
+                "enabled": true,
+                "id": "settings"
+            },
+            {
+                "enabled": true,
+                "id": "gameMode"
+            },
+            {
+                "enabled": true,
+                "id": "dnd"
+            },
+            {
+                "enabled": true,
+                "id": "vpn"
+            }
+        ],
         "toasts": {
             "kbLayoutChanged": false
         }

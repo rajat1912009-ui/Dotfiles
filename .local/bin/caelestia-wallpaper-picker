@@ -10,5 +10,5 @@ sleep 0.01
 wtype -d 5 ">wallpaper"
 
 # 4. Confirm selection mode
-sleep 0.2
+sleep 0.3
 wtype -k Return

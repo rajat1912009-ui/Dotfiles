@@ -221,4 +221,4 @@ create_bind("ALT + SPACE", hl.dsp.exec_cmd("/home/ciel/.local/bin/wallpicker.sh"
 
 create_bind("SUPER + ALT + I", hl.dsp.exec_cmd("/home/ciel/.config/hypr/launch_workspace1.fish"))
 create_bind("SUPER + ALT + O", hl.dsp.exec_cmd("/home/ciel/.config/hypr/launch_workspace2.fish"))
-create_bind("ALT + SPACE", hl.dsp.exec_cmd("/home/ciel/.config/hypr/run_wallpaper.sh"))
+create_bind("ALT + SPACE", hl.dsp.exec_cmd("/home/ciel/.local/bin/wallpaper-picker.sh"))
