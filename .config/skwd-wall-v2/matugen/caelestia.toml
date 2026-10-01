@@ -1,0 +1,7 @@
+[config]
+# Keep Matugen's normal behaviour
+scheme_type = "scheme-tonal-spot"
+
+[templates.caelestia]
+input_path = "~/.config/skwd-wall-v2/matugen/templates/caelestia.json"
+output_path = "~/.local/state/caelestia/scheme.json"

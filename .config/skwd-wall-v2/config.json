@@ -1,0 +1,135 @@
+{
+  "components": {
+    "wallpaperSelector": {
+      "activePreset": {
+        "hex": "Style 1"
+      },
+      "displayMode": "hex",
+      "enabled": true,
+      "flipEffect": "Ignite",
+      "hexParallax": true,
+      "hexShape": "hexagon",
+      "lastAppliedKey": "static:wallhaven-yq9z1x.png",
+      "lastBrowsePosition": {
+        "anchor": "video:games/hsr/phainon cosmic divinity.mp4",
+        "camera": 140.0,
+        "layout": "e5292720676f9788",
+        "selection": "static:wallhaven-3q7o6y.png"
+      },
+      "presets": {
+        "hex": [
+          {
+            "name": "Style 1",
+            "params": {
+              "hexArc": true,
+              "hexArcIntensity": 1.2000000476837158,
+              "hexAspect": 100.0,
+              "hexCols": 7,
+              "hexCurve": "arc",
+              "hexCurveFrequency": 1.0,
+              "hexGapX": 6.0,
+              "hexGapY": 6.0,
+              "hexLens": 0.0,
+              "hexLensRadius": 620.0,
+              "hexOrbit": 0.0,
+              "hexOrbitRadius": 620.0,
+              "hexParallax": true,
+              "hexRadius": 140.0,
+              "hexRows": 3,
+              "hexScatter": 0.0,
+              "hexScrollStep": 1,
+              "hexShape": "hexagon",
+              "hexStageDepthAngle": 0.0,
+              "hexStagePerspective": 0.0,
+              "hexStageRotation": 0.0,
+              "hexStageScale": 100.0,
+              "hexStageShearX": 0.0,
+              "hexStageShearY": 0.0,
+              "hexStageX": 0.0,
+              "hexStageY": 0.0,
+              "hexStagger": 50.0,
+              "hexTwist": 0.0
+            }
+          }
+        ]
+      },
+      "startPosition": "browsing"
+    }
+  },
+  "defaultMatugenConfig": "~/.config/skwd-wall-v2/matugen/caelestia.toml",
+  "effects": {
+    "autoTheme": "Material"
+  },
+  "features": {
+    "matugen": true
+  },
+  "general": {
+    "notifyOnWallpaperChange": false,
+    "randomRotate": false
+  },
+  "matugen": {
+    "colorIndex": 1,
+    "schemeType": "scheme-smart"
+  },
+  "monitor": "",
+  "paths": {
+    "videoWallpaper": "~/Pictures/Wallpapers/Animated/",
+    "wallpaper": "~/Pictures/Wallpapers/Static/"
+  },
+  "performance": {
+    "batteryFps": 30,
+    "batteryWallpaperPerformance": true,
+    "gpuDevice": "uuid:86801659020000000002000000000000",
+    "imageOptimizeResolution": "4k"
+  },
+  "pickOnlyMode": false,
+  "plasma": {
+    "lockScreen": {
+      "mode": "follow"
+    }
+  },
+  "postProcessOnRestore": true,
+  "postProcessing": [],
+  "sources": {
+    "pexels": {
+      "enabled": true
+    },
+    "youtube": {
+      "enabled": true,
+      "showApplyButton": true
+    }
+  },
+  "theme": {
+    "authority": "skwd",
+    "engine": "matugen",
+    "mode": "smart",
+    "policy": "wallpaper",
+    "style": "vibrant",
+    "wallpaperProfiles": [
+      {
+        "key": "static:games/Hsr/kafka.jpg",
+        "settings": {
+          "matugen.colorIndex": 0,
+          "matugen.schemeType": "scheme-fidelity",
+          "theme.authority": "skwd",
+          "theme.engine": "caelestia",
+          "theme.mode": "dark",
+          "theme.noctaliaPureBlack": false,
+          "theme.noctaliaScheme": "",
+          "theme.policy": "wallpaper",
+          "theme.pywalSaturate": "",
+          "theme.scheme": "tonal-spot",
+          "theme.staticTheme": "nord",
+          "theme.style": "natural",
+          "theme.wallustColorspace": "",
+          "theme.wallustPalette": ""
+        },
+        "settingsPinned": true
+      }
+    ]
+  },
+  "transition": {
+    "durationMs": 200,
+    "shader": "random"
+  }
+}
