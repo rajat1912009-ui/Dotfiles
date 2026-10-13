@@ -9,12 +9,12 @@
       "flipEffect": "Ignite",
       "hexParallax": true,
       "hexShape": "hexagon",
-      "lastAppliedKey": "static:wallhaven-yq9z1x.png",
+      "lastAppliedKey": "static:wallhaven-jed6jm.jpg",
       "lastBrowsePosition": {
-        "anchor": "video:games/hsr/phainon cosmic divinity.mp4",
-        "camera": 140.0,
-        "layout": "e5292720676f9788",
-        "selection": "static:wallhaven-3q7o6y.png"
+        "anchor": "video:youtube-kuEN5YnKTko.mp4",
+        "camera": 5896.0,
+        "layout": "330bdfd1b1fb9a22",
+        "selection": "static:wallhaven-jed6jm.jpg"
       },
       "presets": {
         "hex": [
@@ -57,6 +57,12 @@
     }
   },
   "defaultMatugenConfig": "~/.config/skwd-wall-v2/matugen/caelestia.toml",
+  "display": {
+    "fillMode": "stretch",
+    "fillModes": {
+      "eDP-1": "fit"
+    }
+  },
   "effects": {
     "autoTheme": "Material"
   },
@@ -64,6 +70,7 @@
     "matugen": true
   },
   "general": {
+    "maxFps": 60,
     "notifyOnWallpaperChange": false,
     "randomRotate": false
   },
@@ -71,7 +78,10 @@
     "colorIndex": 1,
     "schemeType": "scheme-smart"
   },
-  "monitor": "",
+  "monitor": "eDP-1",
+  "paper": {
+    "performanceMode": true
+  },
   "paths": {
     "videoWallpaper": "~/Pictures/Wallpapers/Animated/",
     "wallpaper": "~/Pictures/Wallpapers/Static/"
@@ -89,7 +99,12 @@
     }
   },
   "postProcessOnRestore": true,
-  "postProcessing": [],
+  "postProcessing": [
+    {
+      "command": "caelestia wallpaper -f \"$(skwd-wall-v2 current | awk -F'\\t' '{print $2}')\"",
+      "type": "all"
+    }
+  ],
   "sources": {
     "pexels": {
       "enabled": true
@@ -102,7 +117,7 @@
   "theme": {
     "authority": "skwd",
     "engine": "matugen",
-    "mode": "smart",
+    "mode": "dark",
     "policy": "wallpaper",
     "style": "vibrant",
     "wallpaperProfiles": [
@@ -131,5 +146,6 @@
   "transition": {
     "durationMs": 200,
     "shader": "random"
-  }
+  },
+  "wallpaperMute": true
 }
