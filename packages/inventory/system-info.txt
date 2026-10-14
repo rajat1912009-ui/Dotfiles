@@ -1,0 +1,2 @@
+Linux archlinux 7.2.8-arch1-2 #1 SMP PREEMPT_DYNAMIC Thu, 01 Oct 2026 17:24:20 +0000 x86_64 GNU/Linux
+/dev/nvme0n1p2 ext4 rw,relatime
