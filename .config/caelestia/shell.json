@@ -1,8 +1,37 @@
 {
     "appearance": {
+        "islands": false,
+        "pitchBlack": false,
         "transparency": {
-            "enabled": true
+            "base": 1,
+            "enabled": true,
+            "layers": 0.5391395970394737
         }
+    },
+    "audio": {
+        "sounds": {
+            "sfxVolume": 0.8
+        }
+    },
+    "background": {
+        "desktopClock": {
+            "enabled": false,
+            "invertColors": false,
+            "position": "top-right"
+        },
+        "desktopLyrics": {
+            "autoHideFullscreen": false,
+            "autoHideTiled": false,
+            "enabled": false,
+            "overlay": true
+        },
+        "visualiser": {
+            "enabled": true,
+            "rounding": 1.5721114309210527
+        },
+        "wallpaperEnabled": false,
+        "wallpaperRecolor": false,
+        "wallpaperRecolorStrength": 1
     },
     "bar": {
         "activeWindow": {
@@ -75,7 +104,7 @@
     "general": {
         "apps": {
             "explorer": [
-                "yazi"
+                "thunar"
             ],
             "playback": [
                 "/usr/bin/vlc",
@@ -90,14 +119,14 @@
         "enableDangerousActions": false,
         "favouriteApps": [
             "org.kde.kdenlive",
-            "anki",
             "org.kde.krita",
             "kitty",
             "localsend",
             "nvim",
             "vlc",
             "com.ktechpit.whatsie",
-            "zen"
+            "zen",
+            "appimagekit_d0314de4c8918ec61430724f9eca9ab4-Flow_Beta"
         ],
         "hiddenApps": [
             "designer",
@@ -116,15 +145,28 @@
             "btop",
             "avahi-discover",
             "bvnc",
-            "bssh",
-            "com.saivert.pwvucontrol",
             "rmpc",
             "rofi",
             "rofi-theme-selector",
             "uuctl",
             "xgps",
             "xgpsspeed",
-            "org.zealdocs.zeal"
+            "org.zealdocs.zeal",
+            "appimagelaunchersettings",
+            "xfce4-about",
+            "bssh",
+            "foot-server",
+            "foot",
+            "footclient",
+            "gvim",
+            "org.mpz_player.mpz",
+            "jconsole-java-openjdk",
+            "jshell-java-openjdk",
+            "scrcpy-console",
+            "sober",
+            "thunar",
+            "virt-manager",
+            "thunar-settings"
         ],
         "maxShown": 5,
         "maxWallpapers": 7,
@@ -138,18 +180,29 @@
         }
     },
     "services": {
-        "defaultPlayer": "MPD",
+        "defaultPlayer": "Sung",
         "gpuType": "",
-        "lyricsBackend": "Auto",
+        "lyricsBackend": "Local",
         "maxVolume": 1,
+        "quickShareAutoStart": false,
         "smartScheme": true,
         "useFahrenheit": false,
         "visualiserBars": 100
+    },
+    "shimeji": {
+        "count": 3,
+        "enabled": true,
+        "scale": 0.9119320518092106
     },
     "sidebar": {
         "enabled": true
     },
     "utilities": {
+        "gameMode": {
+            "autoEnableRegexes": [
+                "org.vinegarhq.Sober"
+            ]
+        },
         "quickToggles": [
             {
                 "enabled": true,
@@ -181,7 +234,9 @@
             }
         ],
         "toasts": {
-            "kbLayoutChanged": false
+            "capsLockChanged": false,
+            "kbLayoutChanged": false,
+            "numLockChanged": false
         }
     }
 }
