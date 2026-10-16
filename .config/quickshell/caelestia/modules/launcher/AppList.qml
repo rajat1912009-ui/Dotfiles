@@ -29,7 +29,8 @@ StyledListView {
     function stateForText(text: string): string {
         const prefix = GlobalConfig.launcher.actionPrefix;
         if (text.startsWith(prefix)) {
-            for (const action of ["calc", "scheme", "variant"])
+            const actionPrefixes = ["calc", "scheme", "variant", "emoji", "clipboard", "windows"];
+            for (const action of actionPrefixes)
                 if (text.startsWith(`${prefix}${action} `))
                     return action;
 
@@ -49,6 +50,26 @@ StyledListView {
             return Schemes.query(text);
         case "variant":
             return M3Variants.query(text);
+        case "emoji": {
+            const prefix = GlobalConfig.launcher.actionPrefix;
+            const queryText = text.slice((prefix + "emoji ").length).toLowerCase();
+            if (!queryText)
+                return Emojis.getSortedItems();
+            return Emojis.items.filter(function (item) {
+                return item.name.toLowerCase().includes(queryText);
+            });
+        }
+        case "clipboard": {
+            const prefix = GlobalConfig.launcher.actionPrefix;
+            const queryText = text.slice((prefix + "clipboard ").length).toLowerCase();
+            if (!queryText)
+                return Clipboard.getSortedItems();
+            return Clipboard.items.filter(function (item) {
+                return item.preview.toLowerCase().includes(queryText);
+            });
+        }
+        case "windows":
+            return Windows.items;
         default:
             return Apps.search(text);
         }
@@ -61,7 +82,7 @@ StyledListView {
 
     spacing: Tokens.spacing.small
     orientation: Qt.Vertical
-    implicitHeight: (Tokens.sizes.launcher.itemHeight + spacing) * Math.min(Config.launcher.maxShown, count) - spacing
+    implicitHeight: Math.max(0, (Tokens.sizes.launcher.itemHeight + spacing) * Math.min(Config.launcher.maxShown, count) - spacing)
 
     preferredHighlightBegin: 0
     preferredHighlightEnd: height
@@ -87,6 +108,41 @@ StyledListView {
     onStateChanged: {
         if (state === "scheme" || state === "variant")
             Schemes.reload();
+        if (state === "emoji")
+            Emojis.reload();
+        if (state === "clipboard")
+            Clipboard.reload();
+            
+        if (state !== "scheme" && state !== "variant") {
+            Colours.showPreview = false;
+        }
+    }
+
+    onCurrentItemChanged: {
+        if (state === "scheme" || state === "variant") {
+            if (currentItem && currentItem.modelData)
+                previewTimer.restart();
+        }
+    }
+
+    Component.onDestruction: {
+        Colours.showPreview = false;
+    }
+
+    Timer {
+        id: previewTimer
+        interval: 100
+        onTriggered: {
+            if (!root.currentItem || !root.currentItem.modelData) return;
+            if (root.state === "scheme") {
+                const schemeData = root.currentItem.modelData;
+                Colours.load(JSON.stringify({ name: schemeData.name, flavour: schemeData.flavour, variant: Colours.variant, mode: Colours.light ? "light" : "dark", colours: schemeData.colours }), true);
+                Colours.showPreview = true;
+            } else if (root.state === "variant") {
+                const variantData = root.currentItem.modelData;
+                M3Variants.previewVariant(variantData.variant);
+            }
+        }
     }
 
     Component.onCompleted: displayText = search.text
@@ -125,6 +181,27 @@ StyledListView {
 
             PropertyChanges {
                 root.delegate: variantItem
+            }
+        },
+        State {
+            name: "emoji"
+
+            PropertyChanges {
+                root.delegate: emojiItem
+            }
+        },
+        State {
+            name: "clipboard"
+
+            PropertyChanges {
+                root.delegate: clipItem
+            }
+        },
+        State {
+            name: "windows"
+
+            PropertyChanges {
+                root.delegate: windowsItem
             }
         }
     ]
@@ -283,6 +360,30 @@ StyledListView {
         id: variantItem
 
         VariantItem {
+            list: root
+        }
+    }
+
+    Component {
+        id: emojiItem
+
+        EmojiItem {
+            list: root
+        }
+    }
+
+    Component {
+        id: clipItem
+
+        ClipItem {
+            list: root
+        }
+    }
+
+    Component {
+        id: windowsItem
+
+        WindowSwitcherItem {
             list: root
         }
     }

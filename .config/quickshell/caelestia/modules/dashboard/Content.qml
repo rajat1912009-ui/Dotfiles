@@ -6,8 +6,10 @@ import Quickshell
 import Quickshell.Widgets
 import Caelestia
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.components.filedialog
+import "../../services"
 
 Item {
     id: root
@@ -20,26 +22,46 @@ Item {
             {
                 component: dashComponent,
                 iconName: "dashboard",
-                text: qsTr("Dashboard"),
+                text: Tr.tr("Dashboard"),
                 enabled: Config.dashboard.showDashboard
             },
             {
                 component: mediaComponent,
                 iconName: "queue_music",
-                text: qsTr("Media"),
+                text: Tr.tr("Media"),
                 enabled: Config.dashboard.showMedia
             },
+            // >>> caelestia-notes: managed block - do not edit; `install.sh --uninstall` removes it >>>
+            {
+                component: notesComponent,
+                iconName: "edit_note",
+                text: Tr.tr("Notes"),
+                enabled: true
+            },
+            // <<< caelestia-notes <<<
             {
                 component: performanceComponent,
                 iconName: "speed",
-                text: qsTr("Performance"),
+                text: Tr.tr("Performance"),
                 enabled: Config.dashboard.showPerformance
             },
             {
                 component: weatherComponent,
                 iconName: "cloud",
-                text: qsTr("Weather"),
+                text: Tr.tr("Weather"),
                 enabled: Config.dashboard.showWeather
+            },
+            {
+                component: terminalComponent,
+                iconName: "terminal",
+                text: qsTr("Terminal"),
+                enabled: Config.dashboard.showTerminal
+            },
+            {
+                component: localSendComponent,
+                iconName: "wifi_tethering",
+                text: Tr.tr("LocalSend"),
+                enabled: true
             }
         ];
         return allTabs.filter(tab => tab.enabled);
@@ -90,14 +112,28 @@ Item {
 
             flickableDirection: Flickable.HorizontalFlick
 
-            implicitWidth: currentItem?.implicitWidth ?? 0
-            implicitHeight: currentItem?.implicitHeight ?? 0
+            property real lastValidImplicitWidth: 0
+            implicitWidth: currentItem ? currentItem.implicitWidth : lastValidImplicitWidth
+            onImplicitWidthChanged: {
+                if (currentItem) lastValidImplicitWidth = currentItem.implicitWidth;
+            }
 
-            contentX: currentItem?.x ?? 0
+            property real lastValidImplicitHeight: 0
+            implicitHeight: currentItem ? currentItem.implicitHeight : lastValidImplicitHeight
+            onImplicitHeightChanged: {
+                if (currentItem) lastValidImplicitHeight = currentItem.implicitHeight;
+            }
+
+            property real lastValidContentX: 0
+            contentX: currentItem ? currentItem.x : lastValidContentX
             contentWidth: row.implicitWidth
             contentHeight: row.implicitHeight
 
             onContentXChanged: {
+                if (currentItem && !moving) {
+                    lastValidContentX = contentX;
+                }
+
                 if (!moving || !currentItem)
                     return;
 
@@ -141,6 +177,7 @@ Item {
 
                         sourceComponent: modelData.component
 
+
                         Component.onCompleted: active = Qt.binding(() => {
                             if (index === view.currentIndex)
                                 return true;
@@ -169,6 +206,32 @@ Item {
                 }
             }
 
+            // >>> caelestia-notes: managed block - do not edit; `install.sh --uninstall` removes it >>>
+            Component {
+                id: notesComponent
+
+                // A wrapper Item + URL Loader (not a direct "NotesTab {}") so that a missing or broken
+                // Notes file can never stop this file - and therefore the whole dashboard - from loading.
+                Item {
+                    implicitWidth: notesLoader.item ? notesLoader.item.implicitWidth : 840
+                    implicitHeight: notesLoader.item ? notesLoader.item.implicitHeight : 480
+
+                    Loader {
+                        id: notesLoader
+
+                        anchors.fill: parent
+                        source: Qt.resolvedUrl("NotesTab.qml")
+                    }
+
+                    StyledText {
+                        anchors.centerIn: parent
+                        visible: notesLoader.status === Loader.Error
+                        text: Tr.tr("Notes failed to load. Re-run the Caelestia Notes installer.")
+                    }
+                }
+            }
+            // <<< caelestia-notes <<<
+
             Component {
                 id: performanceComponent
 
@@ -179,6 +242,18 @@ Item {
                 id: weatherComponent
 
                 WeatherTab {}
+            }
+
+            Component {
+                id: terminalComponent
+
+                TerminalTab {}
+            }
+
+            Component {
+                id: localSendComponent
+
+                LocalSendTab {}
             }
 
             Behavior on contentX {

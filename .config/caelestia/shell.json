@@ -1,105 +1,82 @@
 {
     "appearance": {
         "islands": false,
-        "pitchBlack": false,
         "transparency": {
-            "base": 1,
-            "enabled": true,
-            "layers": 0.5391395970394737
-        }
-    },
-    "audio": {
-        "sounds": {
-            "sfxVolume": 0.8
+            "enabled": false
         }
     },
     "background": {
-        "desktopClock": {
-            "enabled": false,
-            "invertColors": false,
-            "position": "top-right"
-        },
-        "desktopLyrics": {
-            "autoHideFullscreen": false,
-            "autoHideTiled": false,
-            "enabled": false,
-            "overlay": true
-        },
-        "visualiser": {
-            "enabled": true,
-            "rounding": 1.5721114309210527
-        },
-        "wallpaperEnabled": false,
-        "wallpaperRecolor": false,
-        "wallpaperRecolorStrength": 1
+        "videoWallpaperPaused": false,
+        "wallpaperEnabled": false
     },
     "bar": {
-        "activeWindow": {
-            "compact": true,
-            "inverted": false,
-            "showOnHover": false
+        "dock": {
+            "recolourIcons": false
+        },
+        "entries": {
+            "center": [
+                {
+                    "enabled": false,
+                    "id": "activeWindow"
+                },
+                {
+                    "enabled": false,
+                    "id": "logo"
+                },
+                {
+                    "enabled": false,
+                    "id": "spacer"
+                },
+                {
+                    "enabled": false,
+                    "id": "tray"
+                }
+            ],
+            "end": [
+                {
+                    "enabled": true,
+                    "id": "tray"
+                },
+                {
+                    "enabled": true,
+                    "id": "clock"
+                },
+                {
+                    "enabled": true,
+                    "id": "statusIcons"
+                },
+                {
+                    "enabled": true,
+                    "id": "dock"
+                },
+                {
+                    "enabled": true,
+                    "id": "power"
+                }
+            ],
+            "start": [
+                {
+                    "enabled": true,
+                    "id": "logo"
+                },
+                {
+                    "enabled": true,
+                    "id": "workspaces"
+                },
+                {
+                    "enabled": false,
+                    "id": "activeWindow"
+                }
+            ]
         },
         "persistent": true,
-        "popouts": {
-            "activeWindow": true,
-            "tray": true
-        },
-        "showOnHover": true,
-        "statusIcons": [
-            {
-                "enabled": true,
-                "id": "lockStatus"
-            },
-            {
-                "enabled": false,
-                "id": "audio"
-            },
-            {
-                "enabled": false,
-                "id": "microphone"
-            },
-            {
-                "enabled": false,
-                "id": "kbLayout"
-            },
-            {
-                "enabled": true,
-                "id": "network"
-            },
-            {
-                "enabled": true,
-                "id": "bluetooth"
-            },
-            {
-                "enabled": true,
-                "id": "battery"
-            },
-            {
-                "enabled": true,
-                "id": "microphone"
-            },
-            {
-                "enabled": true,
-                "id": "audio"
-            }
-        ],
+        "position": "bottom",
+        "showOnHover": false,
         "tray": {
             "background": false,
             "compact": true,
-            "recolour": true
-        },
-        "workspaces": {
-            "activeIndicator": true,
-            "activeTrail": true,
-            "occupiedBg": false,
-            "perMonitorWorkspaces": true,
-            "shown": 5
+            "recolour": false
         }
-    },
-    "dashboard": {
-        "enabled": true,
-        "showMedia": true,
-        "showOnHover": true
     },
     "general": {
         "apps": {
@@ -116,127 +93,259 @@
         }
     },
     "launcher": {
-        "enableDangerousActions": false,
+        "actions": [
+            {
+                "command": [
+                    "autocomplete",
+                    "calc"
+                ],
+                "dangerous": false,
+                "description": "Evaluate a math expression",
+                "enabled": true,
+                "icon": "function",
+                "name": "Calculator"
+            },
+            {
+                "command": [
+                    "autocomplete",
+                    "scheme"
+                ],
+                "dangerous": false,
+                "description": "Pick a colour scheme",
+                "enabled": true,
+                "icon": "palette",
+                "name": "Scheme"
+            },
+            {
+                "command": [
+                    "autocomplete",
+                    "wallpaper"
+                ],
+                "dangerous": false,
+                "description": "Browse and set wallpapers",
+                "enabled": true,
+                "icon": "wallpaper",
+                "name": "Wallpapers"
+            },
+            {
+                "command": [
+                    "autocomplete",
+                    "variant"
+                ],
+                "dangerous": false,
+                "description": "Pick a material variant",
+                "enabled": true,
+                "icon": "style",
+                "name": "Variant"
+            },
+            {
+                "command": [
+                    "autocomplete",
+                    "clipboard"
+                ],
+                "dangerous": false,
+                "description": "Browse clipboard history",
+                "enabled": true,
+                "icon": "content_paste",
+                "name": "Clipboard"
+            },
+            {
+                "command": [
+                    "autocomplete",
+                    "emoji"
+                ],
+                "dangerous": false,
+                "description": "Browse emoji and symbols",
+                "enabled": true,
+                "icon": "insert_emoticon",
+                "name": "Emoji"
+            },
+            {
+                "command": [
+                    "autocomplete",
+                    "keybinds"
+                ],
+                "dangerous": false,
+                "description": "View keyboard shortcuts",
+                "enabled": true,
+                "icon": "keyboard",
+                "name": "Keybinds"
+            },
+            {
+                "command": [
+                    "caelestia",
+                    "shell",
+                    "nexus",
+                    "open"
+                ],
+                "dangerous": false,
+                "description": "Open caelestia settings",
+                "enabled": true,
+                "icon": "settings",
+                "name": "Settings"
+            },
+            {
+                "command": [
+                    "setMode",
+                    "dark"
+                ],
+                "dangerous": false,
+                "description": "Switch to dark mode",
+                "enabled": true,
+                "icon": "dark_mode",
+                "name": "Dark"
+            },
+            {
+                "command": [
+                    "setMode",
+                    "light"
+                ],
+                "dangerous": false,
+                "description": "Switch to light mode",
+                "enabled": true,
+                "icon": "light_mode",
+                "name": "Light"
+            },
+            {
+                "command": [
+                    "caelestia",
+                    "scheme",
+                    "set",
+                    "-r"
+                ],
+                "dangerous": false,
+                "description": "Pick a random colour scheme",
+                "enabled": true,
+                "icon": "shuffle",
+                "name": "Random"
+            },
+            {
+                "command": [
+                    "loginctl",
+                    "lock-session"
+                ],
+                "dangerous": false,
+                "description": "Lock the screen",
+                "enabled": true,
+                "icon": "lock",
+                "name": "Lock"
+            },
+            {
+                "command": [
+                    "sh",
+                    "-c",
+                    "loginctl terminate-session $XDG_SESSION_ID"
+                ],
+                "dangerous": true,
+                "description": "Log out of the session",
+                "enabled": true,
+                "icon": "logout",
+                "name": "Logout"
+            },
+            {
+                "command": [
+                    "systemctl",
+                    "reboot"
+                ],
+                "dangerous": true,
+                "description": "Reboot the computer",
+                "enabled": true,
+                "icon": "restart_alt",
+                "name": "Reboot"
+            },
+            {
+                "command": [
+                    "systemctl",
+                    "poweroff"
+                ],
+                "dangerous": true,
+                "description": "Power off the computer",
+                "enabled": true,
+                "icon": "power_settings_new",
+                "name": "Shutdown"
+            },
+            {
+                "command": [
+                    "systemctl",
+                    "suspend"
+                ],
+                "dangerous": true,
+                "description": "Suspend the computer",
+                "enabled": true,
+                "icon": "bedtime",
+                "name": "Sleep"
+            }
+        ],
+        "enableDangerousActions": true,
         "favouriteApps": [
-            "org.kde.kdenlive",
-            "org.kde.krita",
-            "kitty",
-            "localsend",
-            "nvim",
-            "vlc",
+            "sung",
             "com.ktechpit.whatsie",
-            "zen",
-            "appimagekit_d0314de4c8918ec61430724f9eca9ab4-Flow_Beta"
+            "sober",
+            "kitty",
+            "zen"
         ],
         "hiddenApps": [
-            "designer",
-            "qvidcap",
-            "qv4l2",
-            "linguist",
-            "qdbusviewer",
-            "assistant",
+            "com.system76.CosmicFiles",
+            "libreoffice-writer",
+            "onboard",
+            "yazi",
+            "xfce4-about",
+            "anki",
+            "appimagelaunchersettings",
+            "bssh",
+            "bvnc",
+            "avahi-discover",
+            "btop",
+            "thunar-bulk-rename",
+            "cmake-gui",
+            "firefox",
+            "foot",
+            "footclient",
+            "foot-server",
+            "gvim",
+            "lstopo",
             "micro",
             "moebius",
-            "lstopo",
-            "firefox",
-            "nemo",
-            "org.gnome.FileRoller",
-            "cmake-gui",
-            "btop",
-            "avahi-discover",
-            "bvnc",
+            "org.mpz_player.mpz",
+            "onboard-settings",
+            "jconsole-java-openjdk",
+            "jshell-java-openjdk",
+            "assistant",
+            "qdbusviewer",
+            "linguist",
+            "qv4l2",
+            "qvidcap",
+            "designer",
             "rmpc",
             "rofi",
             "rofi-theme-selector",
-            "uuctl",
+            "scrcpy-console",
+            "thunar-settings",
+            "org.vinegarhq.Sober",
+            "virt-manager",
+            "org.pulseaudio.pavucontrol",
             "xgps",
             "xgpsspeed",
-            "org.zealdocs.zeal",
-            "appimagelaunchersettings",
-            "xfce4-about",
-            "bssh",
-            "foot-server",
-            "foot",
-            "footclient",
-            "gvim",
-            "org.mpz_player.mpz",
-            "jconsole-java-openjdk",
-            "jshell-java-openjdk",
-            "scrcpy-console",
-            "sober",
-            "thunar",
-            "virt-manager",
-            "thunar-settings"
+            "org.zealdocs.zeal"
         ],
-        "maxShown": 5,
-        "maxWallpapers": 7,
-        "showOnHover": false,
         "useFuzzy": {
             "actions": true,
             "apps": true,
-            "schemes": true,
-            "variants": true,
-            "wallpapers": true
+            "wallpapers": false
         }
     },
     "services": {
+        "dataUnits": "Decimal",
         "defaultPlayer": "Sung",
-        "gpuType": "",
-        "lyricsBackend": "Local",
-        "maxVolume": 1,
-        "quickShareAutoStart": false,
+        "pipPaused": false,
         "smartScheme": true,
-        "useFahrenheit": false,
-        "visualiserBars": 100
-    },
-    "shimeji": {
-        "count": 3,
-        "enabled": true,
-        "scale": 0.9119320518092106
-    },
-    "sidebar": {
-        "enabled": true
+        "weatherUnits": "Celsius"
     },
     "utilities": {
-        "gameMode": {
-            "autoEnableRegexes": [
-                "org.vinegarhq.Sober"
-            ]
-        },
-        "quickToggles": [
-            {
-                "enabled": true,
-                "id": "wifi"
-            },
-            {
-                "enabled": true,
-                "id": "bluetooth"
-            },
-            {
-                "enabled": true,
-                "id": "mic"
-            },
-            {
-                "enabled": true,
-                "id": "settings"
-            },
-            {
-                "enabled": true,
-                "id": "gameMode"
-            },
-            {
-                "enabled": true,
-                "id": "dnd"
-            },
-            {
-                "enabled": true,
-                "id": "vpn"
-            }
-        ],
         "toasts": {
             "capsLockChanged": false,
-            "kbLayoutChanged": false,
-            "numLockChanged": false
+            "numLockChanged": false,
+            "transparency": false
         }
     }
 }

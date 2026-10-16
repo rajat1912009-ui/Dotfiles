@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Caelestia
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.components.controls
 import qs.services
@@ -24,8 +25,8 @@ Item {
     Item {
         id: listWrapper
 
-        implicitWidth: list.width
-        implicitHeight: list.height + root.padding
+        implicitWidth: list.implicitWidth
+        implicitHeight: list.implicitHeight + root.padding
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: search.top
@@ -58,35 +59,27 @@ Item {
         topPadding: Math.round((Tokens.padding.medium + Tokens.padding.large) / 2)
         bottomPadding: Math.round((Tokens.padding.medium + Tokens.padding.large) / 2)
 
-        placeholderText: qsTr("Type \"%1\" for commands").arg(GlobalConfig.launcher.actionPrefix)
-
-        onTextChanged: {
-            if (text === `${GlobalConfig.launcher.actionPrefix}wallpaper `) {
-                Wallpapers.updateWallpapers();
-            }
-        }
+        placeholderText: Tr.tr("Type \"%1\" for commands").arg(GlobalConfig.launcher.actionPrefix)
 
         onAccepted: {
             const currentItem = list.currentList?.currentItem;
-            if (!currentItem)
-                return;
-
-            if (list.showWallpapers) {
-                const path = currentItem.modelData.path;
-                if (Colours.scheme === "dynamic" && path !== Wallpapers.actualCurrent)
-                    Wallpapers.previewColourLock = true;
-                Wallpapers.setWallpaper(path);
-                root.screenState.launcher = false;
-                return;
-            }
-
-            if (text.startsWith(`${GlobalConfig.launcher.actionPrefix}calc `)) {
-                currentItem.onClicked();
-            } else if (text.startsWith(GlobalConfig.launcher.actionPrefix)) {
-                currentItem.modelData.onClicked(list.currentList);
-            } else {
-                Apps.launch(currentItem.modelData);
-                root.screenState.launcher = false;
+            if (currentItem) {
+                if (list.showWallpapers) {
+                    if (Colours.scheme === "dynamic" && currentItem.modelData.path !== Wallpapers.actualCurrent)
+                        Wallpapers.previewColourLock = true;
+                    Wallpapers.setWallpaper(currentItem.modelData.path);
+                    root.screenState.launcher = false;
+                } else if (text.startsWith(GlobalConfig.launcher.actionPrefix)) {
+                    if (text.startsWith(`${GlobalConfig.launcher.actionPrefix}calc `))
+                        currentItem.onClicked();
+                    else if (text.startsWith(`${GlobalConfig.launcher.actionPrefix}emoji `) || text.startsWith(`${GlobalConfig.launcher.actionPrefix}clipboard `) || text.startsWith(`${GlobalConfig.launcher.actionPrefix}windows `) || text.startsWith(`${GlobalConfig.launcher.actionPrefix}keybinds `) || text.startsWith(`${GlobalConfig.launcher.actionPrefix}animations `))
+                        currentItem.clicked();
+                    else
+                        currentItem.modelData.onClicked(list.currentList);
+                } else {
+                    Apps.launch(currentItem.modelData);
+                    root.screenState.launcher = false;
+                }
             }
         }
 
@@ -96,17 +89,6 @@ Item {
         Keys.onEscapePressed: root.screenState.launcher = false
 
         Keys.onPressed: event => {
-            // Ctrl + Tab now switches between static and animated tabs.
-            if ((event.modifiers & Qt.ControlModifier) && event.key === Qt.Key_Tab) {
-                if (Wallpapers.wallpaperMode === "static") {
-                    Wallpapers.setWallpaperMode("animated");
-                } else {
-                    Wallpapers.setWallpaperMode("static");
-                }
-                event.accepted = true;
-                return;
-            }
-
             if (!GlobalConfig.launcher.vimKeybinds)
                 return;
 
@@ -128,19 +110,23 @@ Item {
         }
 
         Component.onCompleted: {
-            forceActiveFocus();
-            if (Wallpapers.restoreWallpaperMode) {
-                const target = `${GlobalConfig.launcher.actionPrefix}wallpaper `;
-                if (text !== target)
-                    text = target;
-                Wallpapers.restoreWallpaperMode = false;
+            if (Visibilities.launcherInitialSearch) {
+                text = Visibilities.launcherInitialSearch;
+                Visibilities.launcherInitialSearch = "";
             }
+            forceActiveFocus();
         }
 
         Connections {
             function onLauncherChanged(): void {
-                if (!root.screenState.launcher)
+                if (root.screenState.launcher) {
+                    if (Visibilities.launcherInitialSearch) {
+                        search.text = Visibilities.launcherInitialSearch;
+                        Visibilities.launcherInitialSearch = "";
+                    }
+                } else {
                     search.text = "";
+                }
             }
 
             function onSessionChanged(): void {

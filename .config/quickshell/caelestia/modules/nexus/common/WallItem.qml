@@ -16,6 +16,7 @@ Item {
     property alias radius: imgWrapper.radius
     property alias imgHeight: imgWrapper.implicitHeight
     property bool fillLabel: true
+    property string realPath: ""
 
     signal clicked
 
@@ -73,16 +74,16 @@ Item {
                 fillMode: Image.PreserveAspectCrop
 
                 source: {
-                    const src = root.source;
-                    if (!src) return "";
-                    
-                    if (Wallpapers.isVideo(src)) {
-                        const thumb = Wallpapers.getWallpaperThumb(src, Wallpapers.cacheBuster);
+                    const target = root.realPath || root.source;
+                    if (!target) return "";
+
+                    if (Wallpapers.isVideo(target)) {
+                        const thumb = Wallpapers.getWallpaperThumb(target, Wallpapers.cacheBuster);
                         return (typeof thumb === "string" && thumb !== "undefined") ? thumb : "";
                     }
-                    return src;
+                    return root.source || target;
                 }
-                
+
                 sourceSize: {
                     const dpr = (QsWindow.window as QsWindow)?.devicePixelRatio ?? 1;
                     return Qt.size(width * dpr, height * dpr);

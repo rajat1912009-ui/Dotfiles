@@ -2,6 +2,7 @@ local vars = require("variables")
 local fn   = require("utils.functions")
 
 
+
 -- Flags
 local locked           = { locked = true }
 local mouse            = { mouse = true }
@@ -41,6 +42,9 @@ local function create_bind(keybinds, action, flags)
     end
 end
 
+
+
+
 -- Launcher
 local launcher_default = normalise_keybind("SUPER + SUPER_L")
 create_bind(
@@ -51,6 +55,9 @@ create_bind(
     end
 )
 
+
+
+
 -- Misc
 create_bind(vars.kbSession, hl.dsp.global("caelestia:session"))
 create_bind(vars.kbShowSidebar, hl.dsp.global("caelestia:sidebar"))
@@ -58,11 +65,17 @@ create_bind(vars.kbClearNotifs, hl.dsp.global("caelestia:clearNotifs"), locked)
 create_bind(vars.kbShowPanels, hl.dsp.global("caelestia:showall"))
 create_bind(vars.kbLock, hl.dsp.global("caelestia:lock"))
 
+
+
 -- Restore lock
 create_bind(vars.kbRestoreLock, function()
     hl.dispatch(hl.dsp.exec_cmd("caelestia shell -d"))
     hl.dispatch(hl.dsp.global("caelestia:lock"))
 end)
+
+
+
+
 
 -- Kill/restart
 create_bind("CTRL + SUPER + SHIFT + R", hl.dsp.exec_cmd("qs -c caelestia kill"), release)
@@ -80,21 +93,38 @@ for i = 1, 10 do
     create_bind(vars.kbMoveWinToWsGroup .. " + " .. key, fn.wsaction("move", "group", i))
 end
 
+
+
+
+
+
 -- Go to workspace -1/+1
 create_bind(vars.kbPrevWs, hl.dsp.focus({ workspace = "-1" }), repeating_unless_mouse)
 create_bind(vars.kbNextWs, hl.dsp.focus({ workspace = "+1" }), repeating_unless_mouse)
+
+
+
 
 -- Go to workspace group -1/+1
 create_bind(vars.kbPrevWsGroup, hl.dsp.focus({ workspace = "-10" }), repeating_unless_mouse)
 create_bind(vars.kbNextWsGroup, hl.dsp.focus({ workspace = "+10" }), repeating_unless_mouse)
 
+
+
+
 -- Move window to workspace -1/+1
 create_bind(vars.kbMoveWinToWsNext, hl.dsp.window.move({ workspace = "+1" }), repeating_unless_mouse)
 create_bind(vars.kbMoveWinToWsPrev, hl.dsp.window.move({ workspace = "-1" }), repeating_unless_mouse)
 
+
+
+
 -- Move window to/from special workspace
 create_bind(vars.kbMoveWinToWsSpecial, hl.dsp.window.move({ workspace = "special:special" }))
 create_bind(vars.kbMoveWinFromWsSpecial, hl.dsp.window.move({ workspace = "e+0" }))
+
+
+
 
 -- Window groups
 create_bind(vars.kbWindowCycleNext, hl.dsp.window.cycle_next(), repeating)
@@ -104,6 +134,9 @@ create_bind(vars.kbWindowGroupCyclePrev, hl.dsp.group.prev(), repeating)
 create_bind(vars.kbToggleGroup, hl.dsp.group.toggle())
 create_bind(vars.kbUngroup, hl.dsp.window.move({ out_of_group = true }))
 create_bind(vars.kbGroupLockActive, hl.dsp.group.lock_active())
+
+
+
 
 -- Window actions
 for _, dir in ipairs({ "left", "right", "up", "down" }) do
@@ -141,6 +174,8 @@ create_bind(vars.kbWindowBorderedFullscreen, hl.dsp.window.fullscreen({ mode = "
 create_bind(vars.kbToggleWindowFloating, hl.dsp.window.float())
 create_bind(vars.kbCloseWindow, hl.dsp.window.close())
 
+
+
 -- Special workspace toggles
 create_bind(vars.kbSpecialWs, fn.toggle("specialws"))
 create_bind(vars.kbSystemMonitorWs, fn.toggle("sysmon"))
@@ -148,12 +183,16 @@ create_bind(vars.kbMusicWs, fn.toggle("music"))
 create_bind(vars.kbCommunicationWs, fn.toggle("communication"))
 create_bind(vars.kbTodoWs, fn.toggle("todo"))
 
+
+
 -- Apps
 create_bind(vars.kbTerminal, hl.dsp.exec_cmd(vars.terminal))
 create_bind(vars.kbBrowser, hl.dsp.exec_cmd(vars.browser))
 create_bind(vars.kbEditor, hl.dsp.exec_cmd(vars.editor))
 create_bind(vars.kbFileExplorer, hl.dsp.exec_cmd(vars.fileExplorer))
 create_bind(vars.kbAudioSettings, hl.dsp.exec_cmd(vars.audioSettings))
+
+
 
 -- Utilities
 create_bind(vars.kbScreenshot, hl.dsp.exec_cmd("caelestia screenshot"), locked)
@@ -164,15 +203,21 @@ create_bind(vars.kbRecordSound, hl.dsp.exec_cmd("caelestia record -s"))
 create_bind(vars.kbRecordRegion, hl.dsp.exec_cmd("caelestia record -r"))
 create_bind(vars.kbColorPicker, hl.dsp.exec_cmd("hyprpicker -a"))
 
+
+
 -- Brightness
 create_bind("XF86MonBrightnessUp", hl.dsp.global("caelestia:brightnessUp"), locked)
 create_bind("XF86MonBrightnessDown", hl.dsp.global("caelestia:brightnessDown"), locked)
+
+
 
 -- Media
 create_bind({ vars.kbMediaToggle, "XF86AudioPlay", "XF86AudioPause" }, hl.dsp.global("caelestia:mediaToggle"), locked)
 create_bind({ vars.kbMediaNext, "XF86AudioNext" }, hl.dsp.global("caelestia:mediaNext"), locked)
 create_bind({ vars.kbMediaPrev, "XF86AudioPrev" }, hl.dsp.global("caelestia:mediaPrev"), locked)
 create_bind({ vars.kbMediaStop, "XF86AudioStop" }, hl.dsp.global("caelestia:mediaStop"), locked)
+
+
 
 -- Volume
 create_bind({ vars.kbVolumeMute, "XF86AudioMute" }, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), locked)
@@ -193,32 +238,51 @@ create_bind(
     locked_repeating
 )
 
+
+
+
 -- Sleep
 create_bind(vars.kbSleep, hl.dsp.exec_cmd(vars.sleepGestureCmd), locked)
 
+
+
+
+--Clipboard and Emojiboard
 -- Clipboard and emoji picker
-create_bind(vars.kbClipboard, hl.dsp.exec_cmd("pkill fuzzel || caelestia clipboard"))
-create_bind(vars.kbClipboardDel, hl.dsp.exec_cmd("pkill fuzzel || caelestia clipboard -d"))
-create_bind(vars.kbEmoji, hl.dsp.exec_cmd("pkill fuzzel || caelestia emoji -p"))
+create_bind(
+    vars.kbClipboard,
+    hl.dsp.exec_cmd("pkill -x fuzzel || clipboard-picker copy")
+)
+
+create_bind(
+    vars.kbClipboardDel,
+    hl.dsp.exec_cmd("pkill -x fuzzel || clipboard-picker delete")
+)
+
+create_bind(
+    vars.kbEmoji,
+    hl.dsp.exec_cmd("pkill -x fuzzel || emoji-picker")
+)
+
 create_bind(
     vars.kbClipboardPasteLatest,
     hl.dsp.exec_cmd('sleep 0.5s && ydotool type -d 1 "$(cliphist list | head -1 | cliphist decode)"'),
     locked
 )
 
--- Testing
-create_bind(
-    "SUPER + ALT + F12",
-    hl.dsp.exec_cmd(
-        "notify-send -u low -i dialog-information-symbolic 'Test notification' " ..
-        [["Here's a really long message to test truncation and wrapping\nYou can middle click or flick this notification to dismiss it!"]] ..
-        " -a 'Shell' -A 'Test1=I got it!' -A 'Test2=Another action'"
-    )
-)
+
+
+
 
 -- Custom Shortcuts
-create_bind("ALT + SPACE", hl.dsp.exec_cmd("/home/ciel/.local/bin/wallpicker.sh"))
 
 create_bind("SUPER + ALT + I", hl.dsp.exec_cmd("/home/ciel/.config/hypr/launch_workspace1.fish"))
 create_bind("SUPER + ALT + O", hl.dsp.exec_cmd("/home/ciel/.config/hypr/launch_workspace2.fish"))
-create_bind("ALT + SPACE", hl.dsp.exec_cmd("/home/ciel/.local/bin/wallpaper-picker.sh"))
+create_bind("ALT + SPACE", hl.dsp.exec_cmd("skwd-wall-v2"))
+create_bind("SUPER + ALT + M", hl.dsp.exec_cmd("/usr/lib/jvm/java-21-openjdk/bin/java -jar /home/ciel/.local/share/sklauncher/sklauncher.jar"))
+
+
+-- Toggles the entire app lifecycle on one keybind
+create_bind("CTRL + SUPER + ALT + P", hl.dsp.exec_cmd("pkill -x waifuland || /home/ciel/waifuland/./build/bin/waifuland --models_dir /home/ciel/waifuland/models"), "Toggle Waifuland Process On/Off")
+
+

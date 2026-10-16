@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import QtQuick.Layouts
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.services
 import qs.modules.nexus.common
@@ -15,6 +16,9 @@ import qs.modules.nexus.pages.panels
 import qs.modules.nexus.pages.services
 import qs.modules.nexus.pages.wallandstyle
 import qs.modules.nexus.pages.panels.taskbar
+import qs.modules.nexus.pages.background
+import qs.modules.nexus.pages.tokens
+import qs.modules.nexus.pages.hyprland
 
 QtObject {
     id: root
@@ -35,6 +39,55 @@ QtObject {
                 }
                 Component {
                     ColourSelect {}
+                }
+                Component {
+                    WallhavenPage {}
+                }
+                Component {
+                    WallpaperEnginePage {}
+                }
+            }
+        },
+        Component {
+            // Background elements
+            StackPage {
+                Component {
+                    BackgroundPage {}
+                }
+                Component {
+                    DesktopClockPage {}
+                }
+                Component {
+                    DesktopLyricsPage {}
+                }
+                Component {
+                    VisualiserPage {}
+                }
+                Component {
+                    ShimejiPage {}
+                }
+            }
+        },
+        Component {
+            // Shell Tokens
+            StackPage {
+                Component {
+                    TokensPage {}
+                }
+                Component {
+                    RoundingSpacingPage {}
+                }
+                Component {
+                    FontSizesPage {}
+                }
+                Component {
+                    BarDashboardPage {}
+                }
+                Component {
+                    WindowLockPage {}
+                }
+                Component {
+                    ShellElementsPage {}
                 }
             }
         },
@@ -125,6 +178,9 @@ QtObject {
 
                 // Taskbar component sub-pages
                 Component {
+                    BarComponents {}
+                }
+                Component {
                     BarWorkspaces {}
                 }
                 Component {
@@ -138,6 +194,15 @@ QtObject {
                 }
                 Component {
                     BarClock {}
+                }
+                Component {
+                    BarDock {}
+                }
+                Component {
+                    BarGithub {}
+                }
+                Component {
+                    BarSpotify {}
                 }
             }
         },
@@ -156,6 +221,23 @@ QtObject {
             }
         },
         Component {
+            // Hyprland
+            StackPage {
+                Component {
+                    HyprlandPage {}
+                }
+                Component {
+                    HyprVariablesPage {}
+                }
+                Component {
+                    HyprKeybindsPage {}
+                }
+                Component {
+                    UserConfigPage {}
+                }
+            }
+        },
+        Component {
             // Services
             StackPage {
                 Component {
@@ -163,6 +245,21 @@ QtObject {
                 }
                 Component {
                     NotificationsPage {}
+                }
+                Component {
+                    GameModePage {}
+                }
+                Component {
+                    GameModeTargetsPage {}
+                }
+                Component {
+                    ArpcPage {}
+                }
+                Component {
+                    PipPage {}
+                }
+                Component {
+                    QuickSharePage {}
                 }
             }
         },
@@ -174,6 +271,7 @@ QtObject {
                 }
             }
         },
+
 
         // About
         Component {
@@ -205,14 +303,14 @@ QtObject {
 
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Page under construction")
+                text: Tr.tr("Page under construction")
                 color: Colours.palette.m3outlineVariant
                 font: Tokens.font.title.large
             }
 
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("This page will be available in a future update.")
+                text: Tr.tr("This page will be available in a future update.")
                 color: Colours.palette.m3outlineVariant
                 font: Tokens.font.body.large
             }

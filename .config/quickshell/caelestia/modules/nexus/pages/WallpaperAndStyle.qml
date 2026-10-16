@@ -2,12 +2,15 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import Caelestia
 import Caelestia.Components
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.components.controls
 import qs.components.images
 import qs.services
+import qs.utils
 import qs.modules.nexus.common
 
 PageBase {
@@ -47,12 +50,10 @@ PageBase {
             Layout.alignment: Qt.AlignHCenter
             implicitWidth: {
                 const screen = root.nState.screen;
-                if (!screen || screen.height === 0) return 0;
                 return implicitHeight / screen.height * screen.width;
             }
             implicitHeight: {
                 const screen = root.nState.screen;
-                if (!screen || screen.width === 0) return 0;
                 const cWidth = root.cappedWidth;
                 return Math.min(Math.round(cWidth * 0.4), cWidth / screen.width * screen.height);
             }
@@ -77,7 +78,7 @@ PageBase {
 
                     StyledText {
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("Wallpaper disabled")
+                        text: Tr.tr("Wallpaper disabled")
                         color: Colours.palette.m3onSurfaceVariant
                         font: Tokens.font.body.large
                     }
@@ -145,17 +146,7 @@ PageBase {
                     id: wallImg
 
                     anchors.fill: parent
-                    source: {
-                    	const path = Wallpapers.current;
-                    	if (!path) return "";
-
-                    	if (Wallpapers.isVideo(path)) {
-                    		const thumb = Wallpapers.getWallpaperThumb(path, Wallpapers.cacheBuster);
-                    		return (typeof thumb === "string" && thumb !== "undefined") ? thumb : "";
-                    	}
-
-                    	return path;
-                    }
+                    source: Wallpapers.getThumbnailPath(Wallpapers.current)
                     preventInit: wallIndicatorLoader.opacity > 0
                     fadeOutAnim: Anim.DefaultEffects
                     fadeInAnim: Anim.SlowEffects
@@ -170,6 +161,40 @@ PageBase {
                     }
                 }
             }
+
+            IconTextButton {
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                anchors.margins: Tokens.padding.medium
+
+                icon: "save"
+                text: qsTr("Save Recolored")
+                font: Tokens.font.body.large
+                isRound: true
+                shapeMorph: true
+                type: IconTextButton.Filled
+                horizontalPadding: Tokens.padding.large
+                verticalPadding: Tokens.padding.medium
+                
+                visible: Config.background.wallpaperEnabled && Config.background.wallpaperRecolor
+                opacity: visible ? 1 : 0
+
+                Behavior on opacity {
+                    Anim {
+                        type: Anim.DefaultEffects
+                    }
+                }
+
+                onClicked: {
+                    const bgWin = ShellState.componentsFor(root.nState.screen).background;
+                    if (bgWin && bgWin.wallpaperLoader && bgWin.wallpaperLoader.item && bgWin.wallpaperLoader.item.current) {
+                        const path = Paths.home + "/Downloads/recolored_wallpaper.png";
+                        CUtils.saveItem(bgWin.wallpaperLoader.item.current, "file://" + path, function() {
+                            Notifs.sendToast("Wallpaper Saved", "Saved to ~/Downloads/recolored_wallpaper.png", "image", null, null);
+                        });
+                    }
+                }
+            }
         }
 
         ButtonRow {
@@ -178,7 +203,7 @@ PageBase {
 
             IconTextButton {
                 icon: "wallpaper"
-                text: qsTr("Wallpapers")
+                text: Tr.tr("Wallpapers")
                 font: Tokens.font.body.large
                 isRound: true
                 shapeMorph: true
@@ -191,7 +216,7 @@ PageBase {
 
             IconTextButton {
                 icon: "palette"
-                text: qsTr("Colours")
+                text: Tr.tr("Colours")
                 font: Tokens.font.body.large
                 isRound: true
                 shapeMorph: true
@@ -202,12 +227,37 @@ PageBase {
             }
         }
 
+        SectionHeader {
+            text: qsTr("Wallpaper")
+        }
+
         ToggleRow {
             Layout.fillWidth: true
             first: true
-            text: qsTr("Display wallpaper")
+            text: Tr.tr("Display wallpaper")
             checked: Config.background.wallpaperEnabled
             onToggled: GlobalConfig.background.wallpaperEnabled = checked
+        }
+
+        ToggleRow {
+            Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
+            Layout.fillWidth: true
+            text: qsTr("Recolor wallpaper")
+            subtext: qsTr("Tint the wallpaper to match static color schemes")
+            checked: Config.background.wallpaperRecolor
+            onToggled: GlobalConfig.background.wallpaperRecolor = checked
+            enabled: Config.background.wallpaperEnabled
+        }
+
+        SliderRow {
+            Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
+            Layout.fillWidth: true
+            icon: ""
+            label: qsTr("Recolor strength")
+            valueLabel: Math.round(value * 100) + "%"
+            value: Config.background.wallpaperRecolorStrength
+            enabled: Config.background.wallpaperRecolor && Config.background.wallpaperEnabled
+            onMoved: v => GlobalConfig.background.wallpaperRecolorStrength = v
         }
 
         SelectRow {
@@ -218,7 +268,7 @@ PageBase {
             menuOnTop: true
             menuItems: root.hwDecoderItems
             active: root.hwDecoderItems[root.hwDecoderToIndex(WallpaperPauser.hwDecoder)]
-            onSelected: item => WallpaperPauser.hwDecoder = root.hwDecoderValues[root.hwDecoderItems.indexOf(item)]
+            onSelected: item => WallpaperPauser.setHwDecoder(root.hwDecoderValues[root.hwDecoderItems.indexOf(item)])
         }
 
         ToggleRow {
@@ -243,27 +293,71 @@ PageBase {
             Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
             Layout.fillWidth: true
 
+            last: true
             text: qsTr("Animate wallpaper transitions")
             checked: Wallpapers.enableAnimation
             onToggled: Wallpapers.enableAnimation = checked
         }
 
-        ToggleRow {
-            Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
-            Layout.fillWidth: true
+        SectionHeader {
+            text: qsTr("Appearance")
+        }
 
-            text: qsTr("Transparency")
-            subtext: qsTr("Base %1, layers %2").arg(Colours.transparency.base).arg(Colours.transparency.layers)
-            checked: Colours.transparency.enabled
-            onToggled: GlobalConfig.appearance.transparency.enabled = checked
+        ToggleRow {
+            first: true
+            Layout.fillWidth: true
+            text: qsTr("Bezel mode (Pitch black)")
+            subtext: qsTr("Make the shell pitch black to blend with display bezels")
+            checked: Config.appearance.pitchBlack
+            onToggled: GlobalConfig.appearance.pitchBlack = checked
         }
 
         ToggleRow {
             Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
             Layout.fillWidth: true
+            text: qsTr("Islands")
+            subtext: qsTr("Everything appears as its own floating widget (Very Experimental)")
+            checked: GlobalConfig.appearance.islands
+            onToggled: GlobalConfig.appearance.islands = checked
+        }
 
+        ToggleRow {
+            Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
+            Layout.fillWidth: true
+            text: qsTr("Transparency")
+            checked: Colours.transparency.enabled
+            onToggled: {
+                GlobalConfig.appearance.transparency.enabled = checked;
+                GlobalConfig.utilities.toasts.transparency = checked;
+            }
+        }
+
+        SliderRow {
+            Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
+            Layout.fillWidth: true
+            label: qsTr("Base transparency level")
+            value: Colours.transparency.base
+            valueLabel: Math.round(value * 100) + "%"
+            onMoved: v => GlobalConfig.appearance.transparency.base = v
+            enabled: Colours.transparency.enabled
+        }
+
+        SliderRow {
+            Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
+            Layout.fillWidth: true
+            label: qsTr("Layer transparency level")
+            value: Colours.transparency.layers
+            valueLabel: Math.round(value * 100) + "%"
+            onMoved: v => GlobalConfig.appearance.transparency.layers = v
+            enabled: Colours.transparency.enabled
+        }
+
+
+        ToggleRow {
+            Layout.topMargin: Tokens.spacing.extraSmall / 2 - parent.spacing
+            Layout.fillWidth: true
             last: true
-            text: qsTr("Dark theme")
+            text: Tr.tr("Dark theme")
             checked: !Colours.light
             onToggled: Colours.setMode(checked ? "dark" : "light")
         }

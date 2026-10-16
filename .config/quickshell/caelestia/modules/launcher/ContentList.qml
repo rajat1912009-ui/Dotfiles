@@ -1,10 +1,10 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
-import Quickshell
-import Quickshell.Io
+import QtQuick.Controls
+import Caelestia
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.components.controls
 import qs.services
@@ -21,41 +21,42 @@ Item {
     required property int padding
     required property int rounding
 
-    readonly property bool showWallpapers: search.text.startsWith(`${GlobalConfig.launcher.actionPrefix}wallpaper `)
-    readonly property var currentList: showWallpapers ? (wallpaperList.item ? wallpaperList.item.realList : null) : appList.item
-    property string animState: showWallpapers ? "wallpapers" : "apps"
+    readonly property bool showWallpapers: search.text.startsWith(`${GlobalConfig.launcher.actionPrefix}wallpaper `) || search.text === `${GlobalConfig.launcher.actionPrefix}wallpaper`
+    onShowWallpapersChanged: {
+        if (showWallpapers) {
+            for (let category of Wallpapers.categories) {
+                let walls = Wallpapers.grouped[category] || [];
+                if (walls.some(w => w.path === Wallpapers.actualCurrent)) {
+                    currentWallpaperTab = category;
+                    break;
+                }
+            }
+        }
+    }
+    readonly property bool showWindowSwitcher: search.text.startsWith(`${GlobalConfig.launcher.actionPrefix}windows `) || search.text === `${GlobalConfig.launcher.actionPrefix}windows`
+    readonly property bool showKeybinds: search.text.startsWith(`${GlobalConfig.launcher.actionPrefix}keybinds `) || search.text === `${GlobalConfig.launcher.actionPrefix}keybinds`
+    readonly property bool showAnimations: search.text.startsWith(`${GlobalConfig.launcher.actionPrefix}animations `) || search.text === `${GlobalConfig.launcher.actionPrefix}animations`
+    readonly property var currentList: showWallpapers ? wallpaperList.item : (showWindowSwitcher ? windowSwitcherList.item : (showAnimations ? animationsList.item : (showKeybinds ? keybindsList.item : appList.item)))
+
+    property string currentWallpaperTab: "Main"
+
+    readonly property var wallpaperTabs: {
+        const res = [];
+        for (let dir of Wallpapers.categories) {
+            res.push({ id: dir, text: dir });
+        }
+        return res;
+    }
+    property string animState: showAnimations ? "animations" : (showWindowSwitcher ? "windowSwitcher" : (showKeybinds ? "keybinds" : (showWallpapers ? "wallpapers" : "apps")))
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom
 
+    width: implicitWidth
+    height: implicitHeight
+
     clip: true
     state: animState
-
-    states: [
-        State {
-            name: "apps"
-
-            PropertyChanges {
-                root.implicitWidth: root.Tokens.sizes.launcher.itemWidth
-                root.implicitHeight: Math.min(root.maxHeight, appList.implicitHeight > 0 ? appList.implicitHeight : empty.implicitHeight)
-                appList.active: true
-            }
-
-            AnchorChanges {
-                anchors.left: root.parent.left
-                anchors.right: root.parent.right
-            }
-        },
-        State {
-            name: "wallpapers"
-
-            PropertyChanges {
-                root.implicitWidth: Math.max(root.Tokens.sizes.launcher.itemWidth * 1.2, wallpaperList.implicitWidth)
-                root.implicitHeight: root.Tokens.sizes.launcher.wallpaperHeight + 56
-                wallpaperList.active: root.screenState.launcher
-            }
-        }
-    ]
 
     Behavior on animState {
         SequentialAnimation {
@@ -66,6 +67,7 @@ Item {
                 to: 0
                 type: Anim.DefaultEffects
             }
+            PropertyAction {}
             Anim {
                 target: root
                 property: "opacity"
@@ -76,10 +78,106 @@ Item {
         }
     }
 
+    onStateChanged: {
+        if (state === "keybinds") {
+            keybindsList.active = true;
+        } else {
+            keybindsList.active = false;
+        }
+        if (state === "animations") {
+            animationsList.active = true;
+        } else {
+            animationsList.active = false;
+        }
+    }
+
+    states: [
+        State {
+            name: "apps"
+
+            PropertyChanges {
+                target: root
+                implicitWidth: root.Tokens.sizes.launcher.itemWidth
+                implicitHeight: Math.min(root.maxHeight, appList.implicitHeight > 0 ? appList.implicitHeight : empty.implicitHeight)
+            }
+            PropertyChanges {
+                target: appList
+                active: true
+            }
+
+        },
+        State {
+            name: "wallpapers"
+
+            PropertyChanges {
+                target: root
+                implicitWidth: Math.max(root.Tokens.sizes.launcher.itemWidth * 1.2, wallpaperList.implicitWidth)
+                implicitHeight: root.Tokens.sizes.launcher.wallpaperHeight + 56 // Extra space for color buttons
+            }
+            PropertyChanges {
+                target: wallpaperList
+                active: true
+            }
+        },
+        State {
+            name: "windowSwitcher"
+
+            PropertyChanges {
+                target: root
+                implicitWidth: Math.max(root.Tokens.sizes.launcher.itemWidth * 1.2, windowSwitcherList.implicitWidth)
+                implicitHeight: root.Tokens.sizes.launcher.windowSwitcherHeight
+            }
+            PropertyChanges {
+                target: windowSwitcherList
+                active: true
+            }
+        },
+        State {
+            name: "keybinds"
+
+            PropertyChanges {
+                target: root
+                implicitWidth: root.Tokens.sizes.launcher.itemWidth
+                implicitHeight: Math.min(root.maxHeight, root.Tokens.sizes.launcher.itemHeight * 7)
+            }
+            PropertyChanges {
+                target: keybindsList
+                active: true
+            }
+
+        },
+        State {
+            name: "animations"
+
+            PropertyChanges {
+                target: root
+                implicitWidth: root.Tokens.sizes.launcher.itemWidth
+                implicitHeight: Math.min(root.maxHeight, root.Tokens.sizes.launcher.itemHeight * 7)
+            }
+            PropertyChanges {
+                target: animationsList
+                active: true
+            }
+
+        }
+    ]
+
+    Timer {
+        id: keybindsTimer
+
+        interval: 50
+        onTriggered: {
+            if (state === "keybinds" && keybindsList.item) {
+                keybindsList.item.refreshModel();
+            }
+        }
+    }
+
     Loader {
         id: appList
 
         active: false
+        visible: active
 
         anchors.fill: parent
 
@@ -94,109 +192,217 @@ Item {
     Loader {
         id: wallpaperList
 
-        asynchronous: false
+        asynchronous: true
         active: false
+        visible: active
+
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        height: root.Tokens.sizes.launcher.wallpaperHeight
+
+        sourceComponent: WallpaperList {
+            objectName: "launcherWallpaperList"
+
+            search: root.search
+            screenState: root.screenState
+            panels: root.panels
+            content: root.content
+            contentList: root
+        }
+    }
+
+    Item {
+        id: wallpaperTabsWrapper
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Tokens.padding.medium
+        implicitWidth: Math.min(parent.width - Tokens.padding.large * 2, tabsRow.implicitWidth)
+        implicitHeight: tabsRow.implicitHeight + indicator.implicitHeight + 5
+
+        visible: root.state === "wallpapers"
+
+        Flickable {
+            id: tabsFlickable
+            anchors.fill: parent
+            contentWidth: tabsRow.implicitWidth
+            contentHeight: parent.height
+            flickableDirection: Flickable.HorizontalFlick
+            clip: true
+            
+            ScrollBar.horizontal: StyledScrollBar {
+                flickable: tabsFlickable
+                active: tabsFlickable.moving || tabsFlickable.dragging
+            }
+
+            Row {
+                id: tabsRow
+                spacing: Tokens.spacing.large
+
+                Repeater {
+                    id: tabsRepeater
+                    model: root.wallpaperTabs
+
+                    delegate: Item {
+                        id: tab
+                        required property var modelData
+                        required property int index
+
+                        readonly property bool current: root.currentWallpaperTab === tab.modelData.id
+
+                        implicitWidth: label.implicitWidth + Tokens.padding.medium * 2
+                        implicitHeight: label.implicitHeight + Tokens.padding.small * 2
+
+                        CustomMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+
+                            function onWheel(event: WheelEvent): void {
+                                let idx = root.wallpaperTabs.findIndex(t => t.id === root.currentWallpaperTab);
+                                if (event.angleDelta.y < 0 || event.angleDelta.x < 0)
+                                    idx = Math.min(idx + 1, root.wallpaperTabs.length - 1);
+                                else if (event.angleDelta.y > 0 || event.angleDelta.x > 0)
+                                    idx = Math.max(idx - 1, 0);
+                                
+                                root.currentWallpaperTab = root.wallpaperTabs[idx].id;
+                            }
+
+                            StateLayer {
+                                anchors.fill: parent
+                                radius: Tokens.rounding.medium
+                                color: tab.current ? Colours.palette.m3primary : Colours.palette.m3onSurface
+                                onClicked: root.currentWallpaperTab = tab.modelData.id
+                            }
+                        }
+
+                        StyledText {
+                            id: label
+                            anchors.centerIn: parent
+                            text: tab.modelData.text
+                            color: tab.current ? Colours.palette.m3primary : Colours.palette.m3onSurfaceVariant
+                            font: Tokens.font.label.large
+                        }
+                    }
+                }
+            }
+
+            Item {
+                id: indicator
+
+                anchors.top: tabsRow.bottom
+                anchors.topMargin: 5
+
+                property int currentIndex: Math.max(0, root.wallpaperTabs.findIndex(t => t.id === root.currentWallpaperTab))
+                property Item currentTab: tabsRepeater.itemAt(currentIndex)
+
+                implicitWidth: currentTab ? currentTab.implicitWidth : 0
+                implicitHeight: 3
+                x: currentTab ? tabsRow.x + currentTab.x : 0
+
+                onCurrentIndexChanged: {
+                    if (currentTab) {
+                        const targetX = currentTab.x;
+                        const targetWidth = currentTab.implicitWidth;
+                        if (targetX < tabsFlickable.contentX)
+                            tabsFlickable.contentX = targetX;
+                        else if (targetX + targetWidth > tabsFlickable.contentX + tabsFlickable.width)
+                            tabsFlickable.contentX = targetX + targetWidth - tabsFlickable.width;
+                    }
+                }
+
+                clip: true
+
+                StyledRect {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    implicitHeight: parent.implicitHeight * 2
+                    color: Colours.palette.m3primary
+                    radius: Tokens.rounding.full
+                }
+
+                Behavior on x {
+                    Anim {}
+                }
+                Behavior on implicitWidth {
+                    Anim {}
+                }
+            }
+        }
+    }
+
+    Loader {
+        id: windowSwitcherList
+
+        asynchronous: true
+        active: false
+        visible: active
 
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
 
-        sourceComponent: ColumnLayout {
-            readonly property var realList: listComp
-            readonly property int count: listComp.count
-            spacing: root.Tokens.spacing.normal
-            implicitWidth: listComp.implicitWidth
+        sourceComponent: WindowSwitcherList {
+            search: root.search
+            screenState: root.screenState
+            panels: root.panels
+            content: root.content
+        }
+    }
 
-            RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                spacing: root.Tokens.spacing.normal * 1.06
+    Loader {
+        id: keybindsList
 
-                IconTextButton {
-                    icon: "image"
-                    text: qsTr("Static")
-                    font.pointSize: root.Tokens.font.size.small
-                    isRound: true
-                    horizontalPadding: root.Tokens.padding.medium
-                    verticalPadding: root.Tokens.padding.extraSmall
-                    type: Wallpapers.wallpaperMode === "static" ? IconTextButton.Filled : IconTextButton.Tonal
-                    onClicked: Wallpapers.setWallpaperMode("static")
-                }
+        active: false
+        visible: active
 
-                IconTextButton {
-                    icon: "movie"
-                    text: qsTr("Animated")
-                    font.pointSize: root.Tokens.font.size.small
-                    isRound: true
-                    horizontalPadding: root.Tokens.padding.medium
-                    verticalPadding: root.Tokens.padding.extraSmall
-                    type: Wallpapers.wallpaperMode === "animated" ? IconTextButton.Filled : IconTextButton.Tonal
-                    onClicked: Wallpapers.setWallpaperMode("animated")
-                }
+        anchors.fill: parent
 
-                IconTextButton {
-                    icon: "refresh"
-                    text: qsTr("Refresh")
-                    font.pointSize: root.Tokens.font.size.small
-                    isRound: true
-                    horizontalPadding: root.Tokens.padding.medium
-                    verticalPadding: root.Tokens.padding.extraSmall
-                    visible: Wallpapers.wallpaperMode === "animated"
-                    type: IconTextButton.Tonal
-                    onClicked: {
-                        Wallpapers.refreshAnimatedThumbs();
-                    }
-                }
+        sourceComponent: KeybindsList {
+            search: root.search
+            screenState: root.screenState
+        }
+    }
 
-                Timer {
-                    id: processingDotsTimer
-                    running: Wallpapers._refreshing && Wallpapers.wallpaperMode === "animated"
-                    repeat: true
-                    interval: 400
-                    onTriggered: processingText.dotCount = (processingText.dotCount % 3) + 1
-                }
+    Loader {
+        id: animationsList
 
-                Text {
-                    id: processingText
-                    font.pointSize: root.Tokens.font.size.small
-                    color: Colours.palette.m3secondary
-                    visible: processingDotsTimer.running
-                    Layout.alignment: Qt.AlignVCenter
+        active: false
+        visible: active
 
-                    property int dotCount: 1
-                    text: "Processing" + ".".repeat(dotCount)
-                }
-            }
+        anchors.fill: parent
 
-            WallpaperList {
-                id: listComp
-                objectName: "launcherWallpaperList"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                search: root.search
-                screenState: root.screenState
-                panels: root.panels
-                content: root.content
-            }
+        sourceComponent: AnimationsList {
+            search: root.search
+            screenState: root.screenState
         }
     }
 
     Row {
         id: empty
 
-        readonly property int count: root.currentList?.count ?? 0
-        opacity: count === 0 ? 1 : 0
-        scale: count === 0 ? 1 : 0.5
+        opacity: root.currentList?.count === 0 ? 1 : 0
+        scale: root.currentList?.count === 0 ? 1 : 0.5
 
-        spacing: root.Tokens.spacing.medium
-        padding: root.Tokens.padding.large
+        spacing: Tokens.spacing.medium
+        padding: Tokens.padding.large
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
 
         MaterialIcon {
-            text: root.state === "wallpapers" ? "wallpaper_slideshow" : "manage_search"
+            text: {
+                if (root.state === "wallpapers")
+                    return "wallpaper_slideshow";
+                if (root.state === "keybinds")
+                    return "keyboard";
+                if (root.state === "animations")
+                    return "animation";
+                return "manage_search";
+            }
             color: Colours.palette.m3onSurfaceVariant
-            fontStyle: root.Tokens.font.icon.extraLarge
+            fontStyle: Tokens.font.icon.extraLarge
 
             anchors.verticalCenter: parent.verticalCenter
         }
@@ -205,15 +411,31 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
 
             StyledText {
-                text: root.state === "wallpapers" ? qsTr("No wallpapers found") : qsTr("No results")
+                text: {
+                    if (root.state === "wallpapers")
+                        return qsTr("No wallpapers found");
+                    if (root.state === "keybinds")
+                        return qsTr("No keybinds found");
+                    if (root.state === "animations")
+                        return qsTr("No animations found");
+                    return qsTr("No results");
+                }
                 color: Colours.palette.m3onSurfaceVariant
-                font: root.Tokens.font.body.builders.large.weight(Font.Medium).build()
+                font: Tokens.font.body.builders.large.weight(Font.Medium).build()
             }
 
             StyledText {
-                text: root.state === "wallpapers" && Wallpapers.list.length === 0 ? qsTr("Try putting some wallpapers in %1").arg(Paths.shortenHome(Paths.wallsdir)) : qsTr("Try searching for something else")
+                text: {
+                    if (root.state === "wallpapers")
+                        return Wallpapers.list.length === 0 ? qsTr("Try putting some wallpapers in %1").arg(Paths.shortenHome(Paths.wallsdir)) : qsTr("Try searching for something else");
+                    if (root.state === "keybinds")
+                        return qsTr("No keybinds match your search");
+                    if (root.state === "animations")
+                        return qsTr("Try adding .lua files to\n~/.config/caelestia/animations/");
+                    return qsTr("Try searching for something else");
+                }
                 color: Colours.palette.m3onSurfaceVariant
-                font: root.Tokens.font.body.medium
+                font: Tokens.font.body.medium
             }
         }
 
@@ -230,11 +452,13 @@ Item {
 
     Behavior on implicitWidth {
         enabled: root.screenState.launcher
+
         Anim {}
     }
 
     Behavior on implicitHeight {
         enabled: root.screenState.launcher
+
         Anim {}
     }
 }

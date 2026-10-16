@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -o pipefail
+
+mode="${1:-copy}"
+
+case "$mode" in
+    copy)   prompt="Clipboard > " ;;
+    delete) prompt="Delete entry > " ;;
+    *)
+        printf 'Usage: clipboard-picker [copy|delete]\n' >&2
+        exit 2
+        ;;
+esac
+
+selection=$(cliphist list | fuzzel --dmenu --prompt="$prompt") || exit 0
+[[ -n "$selection" ]] || exit 0
+
+case "$mode" in
+    copy)
+        printf '%s\n' "$selection" | cliphist decode | wl-copy
+        ;;
+    delete)
+        printf '%s\n' "$selection" | cliphist delete
+        ;;
+esac

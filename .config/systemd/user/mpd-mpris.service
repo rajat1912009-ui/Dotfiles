@@ -1,0 +1,12 @@
+[Unit]
+Description=MPD MPRIS Gateway
+After=mpd.service
+Requires=mpd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mpd-mpris -host localhost -port 6600
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,1803 @@
+__app_version__: 2.1.6
+current_playlist: 0
+playlist_view_scroll: 0
+playlists:
+  - name: home/ciel/Music/Playlist
+    playback_order_override: 0
+    tracks:
+      - album: ""
+        artist: ami 🌸
+        begin: 0
+        bitrate: 323
+        channels: 2
+        cue: false
+        duration: 118886
+        path: /home/ciel/Music/Playlist/bake_no_hana_-_english_ver__ami_______.opus
+        samplerate: 48000
+        title: bake no hana - english ver.【ami】(化けの花)
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: Tame Impala
+        begin: 0
+        bitrate: 321
+        channels: 2
+        cue: false
+        duration: 210303
+        path: /home/ciel/Music/Playlist/Dracula.opus
+        samplerate: 48000
+        title: Dracula
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: ""
+        begin: 0
+        bitrate: 129
+        channels: 2
+        cue: false
+        duration: 180521
+        path: /home/ciel/Music/Playlist/Grateful ~ NEFFEX - Grateful [Lyrics].opus
+        samplerate: 48000
+        title: NEFFEX - Grateful
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: ""
+        begin: 0
+        bitrate: 135
+        channels: 2
+        cue: false
+        duration: 119081
+        path: /home/ciel/Music/Playlist/Marino - Greed (official lyric video).opus
+        samplerate: 48000
+        title: Marino - Greed
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: ""
+        begin: 0
+        bitrate: 132
+        channels: 2
+        cue: false
+        duration: 115381
+        path: /home/ciel/Music/Playlist/Marino - Lust (feat. Alexandria).opus
+        samplerate: 48000
+        title: Marino - Lust
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: 歲月的歌
+        begin: 0
+        bitrate: 318
+        channels: 2
+        cue: false
+        duration: 168136
+        path: /home/ciel/Music/Playlist/Peter__Paul___Mary______500_Miles__Sad_Song_of_Poor__Folk_Song_nostalgia_mood.opus
+        samplerate: 48000
+        title: five hundred miles
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: "Honkai: Star Rail"
+        begin: 0
+        bitrate: 306
+        channels: 2
+        cue: false
+        duration: 308837
+        path: /home/ciel/Music/Playlist/Rondo-Across-Countless-Kalpas.opus
+        samplerate: 48000
+        title: "Animated Short: Rondo Across Countless Kalpas | Honkai: Star Rail"
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: ""
+        begin: 0
+        bitrate: 135
+        channels: 2
+        cue: false
+        duration: 226521
+        path: /home/ciel/Music/Playlist/Vendredi sur Mer - Écoute chérie.opus
+        samplerate: 48000
+        title: Vendredi sur Mer - Écoute chérie
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: ""
+        begin: 0
+        bitrate: 107
+        channels: 2
+        cue: false
+        duration: 215761
+        path: /home/ciel/Music/Playlist/Videoclub - Roi (Paroles⧸Lyrics).opus
+        samplerate: 48000
+        title: Videoclub - Roi
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: Mega Unity
+        begin: 0
+        bitrate: 319
+        channels: 2
+        cue: false
+        duration: 194281
+        path: /home/ciel/Music/Playlist/Why do i.opus
+        samplerate: 48000
+        title: Nightcore - Why Do I | Lyrics
+        track_number: 0
+        year: 0
+      - album: ""
+        artist: Yukopi
+        begin: 0
+        bitrate: 330
+        channels: 2
+        cue: false
+        duration: 136440
+        path: /home/ciel/Music/Playlist/Yukopi_-___________feat______.opus
+        samplerate: 48000
+        title: Yukopi - 強風オールバック (feat.歌愛ユキ)
+        track_number: 0
+        year: 0
+      - album: " Proof geometric construction can solve love affairs - Single"
+        artist: ""
+        begin: 0
+        bitrate: 134
+        channels: 2
+        cue: false
+        duration: 303981
+        path: /home/ciel/Music/Playlist/Proof Geometric Construction Can Solve All Love Affairs色恋沙汰は全て作図で解決可能であることの証明 - 家の裏でマンボウが死んでるP ⧸ .opus
+        samplerate: 48000
+        title: " Proof geometric construction can solve love affairs"
+        track_number: 0
+        year: 0
+      - album: "[ oc : au story ] Brutus - Single"
+        artist: Yasu
+        begin: 0
+        bitrate: 313
+        channels: 2
+        cue: false
+        duration: 230423
+        path: /home/ciel/Music/Playlist/Brutus.opus
+        samplerate: 48000
+        title: Brutus
+        track_number: 0
+        year: 0
+      - album: Hu - Single
+        artist: NewJeans
+        begin: 0
+        bitrate: 322
+        channels: 2
+        cue: false
+        duration: 181731
+        path: /home/ciel/Music/Playlist/NewJeans________Hurt__Official_MV.opus
+        samplerate: 48000
+        title: Hurt
+        track_number: 0
+        year: 0
+      - album: Renai Circulation「恋愛サーキュレーション」歌ってみた【＊なみりん】 - Single
+        artist: "*namirin"
+        begin: 0
+        bitrate: 327
+        channels: 2
+        cue: false
+        duration: 254758
+        path: /home/ciel/Music/Playlist/Renai_Circulation_________________________.opus
+        samplerate: 48000
+        title: Renai Circulation「恋愛サーキュレーション」歌ってみた【＊なみりん】
+        track_number: 0
+        year: 0
+      - album: Tabun - Single
+        artist: YOASOBI
+        begin: 0
+        bitrate: 145
+        channels: 2
+        cue: false
+        duration: 254801
+        path: /home/ciel/Music/Playlist/Tabun. ~ Yoasobi - たぶん ｜ Lyrics.opus
+        samplerate: 48000
+        title: Tabun
+        track_number: 0
+        year: 0
+      - album: Vivinos-zomst
+        artist: "RUBYEYE & C!naH"
+        begin: 0
+        bitrate: 135
+        channels: 2
+        cue: false
+        duration: 251181
+        path: /home/ciel/Music/Playlist/Candy Scar ~ Zombie Stage (Original Soundtrack Part.1) - Rubyeye, 和, C!naH.opus
+        samplerate: 48000
+        title: Candy scar
+        track_number: 0
+        year: 0
+      - album: Miki Matsubara Best Collection
+        album_artist: Miki Matsubara
+        artist: Miki Matsubara
+        begin: 0
+        bitrate: 132
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 343021
+        path: /home/ciel/Music/Playlist/Miki Matsubara - Stay With Me HD (Club Mix).opus
+        samplerate: 48000
+        title: Mayonaka No Door ~Stay with Me
+        track_number: 4
+        year: 1979
+      - album: Stylish...
+        album_artist: Lee Hyori
+        artist: Lee Hyori
+        begin: 0
+        bitrate: 318
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 234208
+        path: /home/ciel/Music/Playlist/10_Minutes_ Lee Hyori.opus
+        samplerate: 48000
+        title: Ten Minutes
+        track_number: 4
+        year: 2003
+      - album: Netsuretsu! Anison Spirits the Best - Cover Music Selection - TV Anime Series "Neon Genesis Evangelion Series"
+        album_artist: Yuuko Takayoshi
+        artist: Yuuko Takayoshi
+        begin: 0
+        bitrate: 130
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 245481
+        path: /home/ciel/Music/Playlist/The Cruel Angel's Thesis - Yoko Takahashi.opus
+        samplerate: 48000
+        title: Zankoku Na Tenshi No Te-Ze (OP)
+        track_number: 1
+        year: 2009
+      - album: Triple Baka - Single
+        album_artist: Fahmi
+        artist: Fahmi
+        begin: 0
+        bitrate: 101
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 236321
+        path: /home/ciel/Music/Playlist/Triple Baka ~ Hatsune Miku - Full Song (English Subtitles v2) [LamazeP - REUPLOAD w⧸subtitles added].opus
+        samplerate: 48000
+        title: Triple Baka
+        track_number: 1
+        year: 2010
+      - album: crossing field - EP
+        album_artist: LiSA
+        artist: LiSA
+        begin: 0
+        bitrate: 124
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 244021
+        path: /home/ciel/Music/Playlist/Crossing Field - LiSA ｜ ROM Lyrics.opus
+        samplerate: 48000
+        title: Crossing Field
+        track_number: 1
+        year: 2012
+      - album: Skyfall - Single
+        album_artist: Adele
+        artist: Adele
+        begin: 0
+        bitrate: 134
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 284481
+        path: /home/ciel/Music/Playlist/Skyfall.opus
+        samplerate: 48000
+        title: Skyfall
+        track_number: 1
+        year: 2012
+      - album: Alive
+        album_artist: Shiina Mota
+        artist: Shiina Mota
+        begin: 0
+        bitrate: 132
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 242101
+        path: /home/ciel/Music/Playlist/Young Girl A椎名もた(siinamota)  ⧸ 少女A.opus
+        samplerate: 48000
+        title: Young Girl A
+        track_number: 9
+        year: 2015
+      - album: Uchiagehanabi - Single
+        album_artist: DAOKO×米津玄師
+        artist: DAOKO×米津玄師
+        begin: 0
+        bitrate: 133
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 292641
+        path: /home/ciel/Music/Playlist/DAOKO × 米津玄師『打上花火』MUSIC VIDEO.opus
+        samplerate: 48000
+        title: Uchiagehanabi
+        track_number: 1
+        year: 2017
+      - album: Alone, Pt. II - Single
+        album_artist: "Alan Walker & Ava Max"
+        artist: "Alan Walker & Ava Max"
+        begin: 0
+        bitrate: 322
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 177122
+        path: /home/ciel/Music/Playlist/Alan_Walker___Ava_Max_-_Alone__Pt__II__Lyrics_.opus
+        samplerate: 48000
+        title: Alone, Pt. II
+        track_number: 1
+        year: 2019
+      - album: Shiawase Na Otona
+        album_artist: YOH KAMIYAMA
+        artist: YOH KAMIYAMA
+        begin: 0
+        bitrate: 128
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 180061
+        path: /home/ciel/Music/Playlist/YELLOW【Music Video】⧸ Yoh Kamiyama - YELLOW.opus
+        samplerate: 48000
+        title: Yellow
+        track_number: 2
+        year: 2019
+      - album: Summertime - Single
+        album_artist: "NSZX & Maggie"
+        artist: "NSZX & Maggie"
+        begin: 0
+        bitrate: 141
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 153281
+        path: /home/ciel/Music/Playlist/Kimi no toriko Summertime - Maggie.opus
+        samplerate: 48000
+        title: Kimi ni toriko - Summertime
+        track_number: 1
+        year: 2019
+      - album: Ado's Best Adobum
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 133
+        channels: 2
+        cue: false
+        disc_number: 2/2
+        duration: 242261
+        path: /home/ciel/Music/Playlist/Readymade【Ado】レディメイド.opus
+        samplerate: 48000
+        title: Readymade
+        track_number: 14
+        year: 2020
+      - album: Good-Bye Declaration - Single
+        album_artist: CHINOZO
+        artist: CHINOZO
+        begin: 0
+        bitrate: 128
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 176541
+        path: /home/ciel/Music/Playlist/Chinozo 'グッバイ宣言' feat.FloweR.opus
+        samplerate: 48000
+        title: Good-Bye Declaration
+        track_number: 1
+        year: 2020
+      - album: Savage Love (Laxed - Siren Beat) - Single
+        album_artist: Jawsh 685 x Jason Derulo
+        artist: Jawsh 685 x Jason Derulo
+        begin: 0
+        bitrate: 131
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 208901
+        path: /home/ciel/Music/Playlist/Savage Love -Jason Derulo  (Prod. Jawsh 685)(Lyrics) 🎵.opus
+        samplerate: 48000
+        title: Savage Love (Laxed - Siren Beat)
+        track_number: 1
+        year: 2020
+      - album: Usseewa - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 127
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 202801
+        path: /home/ciel/Music/Playlist/Useewa【Ado】うっせぇわ.opus
+        samplerate: 48000
+        title: Usseewa
+        track_number: 1
+        year: 2020
+      - album: 4 ONLY
+        album_artist: LEEHI
+        artist: LEEHI
+        begin: 0
+        bitrate: 138
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 239501
+        path: /home/ciel/Music/Playlist/Only - Lee hyori.opus
+        samplerate: 48000
+        title: ONLY
+        track_number: 10
+        year: 2021
+      - album: Ado's Best Adobum
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 126
+        channels: 2
+        cue: false
+        disc_number: 1/2
+        duration: 198401
+        path: /home/ciel/Music/Playlist/Ashura chan【Ado】阿修羅ちゃん.opus
+        samplerate: 48000
+        title: Ashura-chan
+        track_number: 2
+        year: 2021
+      - album: Envybaby x KING - Single
+        album_artist: Kanaria
+        artist: Kanaria
+        begin: 0
+        bitrate: 323
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 135129
+        path: /home/ciel/Music/Playlist/Envy_Baby.opus
+        samplerate: 48000
+        title: EnvyBaby x KING
+        track_number: 1
+        year: 2021
+      - album: Into The Night (English Version) - Single
+        album_artist: YOASOBI
+        artist: YOASOBI
+        begin: 0
+        bitrate: 134
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 261661
+        path: /home/ciel/Music/Playlist/Racing Into The Night - YOASOBI.opus
+        samplerate: 48000
+        title: Into The Night (English Version)
+        track_number: 1
+        year: 2021
+      - album: Kyougen
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 131
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 276621
+        path: /home/ciel/Music/Playlist/Gira Gira【Ado】ギラギラ.opus
+        samplerate: 48000
+        title: Gira Gira
+        track_number: 8
+        year: 2021
+      - album: No! No! Satisfaction! - Single
+        album_artist: DA PUMP
+        artist: DA PUMP
+        begin: 0
+        bitrate: 125
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 199521
+        path: /home/ciel/Music/Playlist/No! No! Satisfaction! - DA PUMP.opus
+        samplerate: 48000
+        title: No! No! Satisfaction!
+        track_number: 1
+        year: 2021
+      - album: Odo - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 325
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 208910
+        path: /home/ciel/Music/Playlist/Odo_Ado.opus
+        samplerate: 48000
+        title: Odo
+        track_number: 1
+        year: 2021
+      - album: TVアニメ「見える子ちゃん」メインテーマ - EP
+        album_artist: 四谷みこ(CV:雨宮 天)
+        artist: 四谷みこ(CV:雨宮 天)
+        begin: 0
+        bitrate: 124
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 200981
+        path: /home/ciel/Music/Playlist/Mieruko-chan - 四谷みこ(CV.雨宮天).opus
+        samplerate: 48000
+        title: Mieruko chan
+        track_number: 1
+        year: 2021
+      - album: Akuma no Ko - Single
+        album_artist: Ai Higuchi
+        artist: Ai Higuchi
+        begin: 0
+        bitrate: 134
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 229261
+        path: /home/ciel/Music/Playlist/Akuma no Ko - EP - Ai Higuchi.opus
+        samplerate: 48000
+        title: Akuma no Ko
+        track_number: 1
+        year: 2022
+      - album: Backlight (UTA from ONE PIECE FILM RED) - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 115
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 249941
+        path: /home/ciel/Music/Playlist/Backlight【Ado】逆光（ウタ from ONE PIECE FILM RED）.opus
+        samplerate: 48000
+        title: Backlight (UTA from ONE PIECE FILM RED)
+        track_number: 1
+        year: 2022
+      - album: "Kawaikute Gomen (feat. Chuutan (CV: Saori Hayami)) - Single"
+        album_artist: HoneyWorks
+        artist: HoneyWorks
+        begin: 0
+        bitrate: 129
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 220061
+        path: /home/ciel/Music/Playlist/Kawaikute Gomen ｜ Nakamura Chizuru (Chuu-tan) ｜ Full ROM ⧸ KAN ⧸ ENG Color Coded Lyrics.opus
+        samplerate: 48000
+        title: "Kawaikute Gomen (feat. Chuutan (CV: Saori Hayami))"
+        track_number: 1
+        year: 2022
+      - album: KICK BACK - Single
+        album_artist: Kenshi Yonezu
+        artist: Kenshi Yonezu
+        begin: 0
+        bitrate: 118
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 227221
+        path: /home/ciel/Music/Playlist/KickBack米津玄師 Kenshi Yonezu - KICKBACK.opus
+        samplerate: 48000
+        title: KICK BACK
+        track_number: 1
+        year: 2022
+      - album: NIGHT DANCER - Single
+        album_artist: IMASE
+        artist: IMASE
+        begin: 0
+        bitrate: 133
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 210981
+        path: /home/ciel/Music/Playlist/NIGHT DANCER（MV）.opus
+        samplerate: 48000
+        title: NIGHT DANCER
+        track_number: 1
+        year: 2022
+      - album: Sweet Dream (VIVINOS - ALNST Original Soundtrack Part.2) - Single
+        album_artist: C!naH
+        artist: C!naH
+        begin: 0
+        bitrate: 304
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 107125
+        path: /home/ciel/Music/Playlist/Sweet Dreams ~ ALIEN_STAGE.opus
+        samplerate: 48000
+        title: Sweet Dream (VIVINOS - ALNST Original Soundtrack Part.2)
+        track_number: 1
+        year: 2022
+      - album: Who? - Single
+        album_artist: Azari
+        artist: Azari
+        begin: 0
+        bitrate: 146
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 114521
+        path: /home/ciel/Music/Playlist/Who？.opus
+        samplerate: 48000
+        title: Who?
+        track_number: 1
+        year: 2022
+      - album: Ado's Utattemita Album
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 132
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 258381
+        path: /home/ciel/Music/Playlist/Aishite Aishite Aishite.opus
+        samplerate: 48000
+        title: Aishite Aishite Aishite
+        track_number: 3
+        year: 2023
+      - album: Ado's Utattemita Album
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 126
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 289621
+        path: "/home/ciel/Music/Playlist/Crime& Punishment【Ado】罪と罰 歌いました.opus"
+        samplerate: 48000
+        title: Crime And Punishment
+        track_number: 4
+        year: 2023
+      - album: Ado's Utattemita Album
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 135
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 189841
+        path: /home/ciel/Music/Playlist/Villain【Ado】Villain Utattemita (원곡：Stella Jang).opus
+        samplerate: 48000
+        title: Villain
+        track_number: 6
+        year: 2023
+      - album: All-In (VIVINOS - ALNST Original Soundtrack Part.6) - Single
+        album_artist: 6FU;
+        artist: 6FU;
+        begin: 0
+        bitrate: 124
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 206361
+        path: /home/ciel/Music/Playlist/All-in ｜ Alien Stage.opus
+        samplerate: 48000
+        title: All-In (VIVINOS - ALNST Original Soundtrack Part.6)
+        track_number: 1
+        year: 2023
+      - album: Bansanka - Single
+        album_artist: TUKI.
+        artist: TUKI.
+        begin: 0
+        bitrate: 130
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 220021
+        path: /home/ciel/Music/Playlist/Bansanka ~ tuki.『晩餐歌』Official Music Video.opus
+        samplerate: 48000
+        title: Bansanka
+        track_number: 1
+        year: 2023
+      - album: Black Sorrow (VIVINOS - ALNST Original Soundtrack Part.4) - Single
+        album_artist: PARK BYEONG HOON
+        artist: PARK BYEONG HOON
+        begin: 0
+        bitrate: 319
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 193528
+        path: /home/ciel/Music/Playlist/Black_Sorrow__VIVINOS_-_ALNST_Original_Soundtrack_Part_4_.opus
+        samplerate: 48000
+        title: Black Sorrow (VIVINOS - ALNST Original Soundtrack Part.4)
+        track_number: 1
+        year: 2023
+      - album: Bokurano - EP
+        album_artist: EVE
+        artist: EVE
+        begin: 0
+        bitrate: 135
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 235841
+        path: /home/ciel/Music/Playlist/Kororon - Eve Music Video.opus
+        samplerate: 48000
+        title: Kororon
+        track_number: 2
+        year: 2023
+      - album: Ga - Single
+        album_artist: "UtsuP & Hatsune Miku"
+        artist: "UtsuP & Hatsune Miku"
+        begin: 0
+        bitrate: 126
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 189561
+        path: /home/ciel/Music/Playlist/Ga ~ Utsu-P - ガ ⧸ Ga  feat 初音ミク.opus
+        samplerate: 48000
+        title: Ga
+        track_number: 1
+        year: 2023
+      - album: I’m a Controversy - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 130
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 194521
+        path: /home/ciel/Music/Playlist/I am a controvery【Ado】アタシは問題作.opus
+        samplerate: 48000
+        title: I’m a Controversy
+        track_number: 1
+        year: 2023
+      - album: Idol - Single
+        album_artist: YOASOBI
+        artist: YOASOBI
+        begin: 0
+        bitrate: 125
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 213421
+        path: /home/ciel/Music/Playlist/Idol - YOASOBI.opus
+        samplerate: 48000
+        title: Idol
+        track_number: 1
+        year: 2023
+      - album: Kura Kura - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 128
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 190061
+        path: /home/ciel/Music/Playlist/Kura Kura【Ado】クラクラ.opus
+        samplerate: 48000
+        title: Kura Kura
+        track_number: 1
+        year: 2023
+      - album: Love Cat (feat. Loluet) - Single
+        album_artist: "biz & ZERA"
+        artist: "biz & ZERA"
+        begin: 0
+        bitrate: 120
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 141441
+        path: /home/ciel/Music/Playlist/Love cat愛猫 ⧸ biz×ZERA feat LOLUET.opus
+        samplerate: 48000
+        title: Love Cat (feat. Loluet)
+        track_number: 1
+        year: 2023
+      - album: Loveit? (feat. Loluet) - Single
+        album_artist: "biz & ZERA"
+        artist: "biz & ZERA"
+        begin: 0
+        bitrate: 125
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 155061
+        path: /home/ciel/Music/Playlist/Loveit？  ⧸ biz×ZERA feat LOLUET.opus
+        samplerate: 48000
+        title: Loveit? (feat. LOLUET)
+        track_number: 1
+        year: 2023
+      - album: "Nomad / bug (feat. 宵崎奏, 朝比奈まふゆ, 東雲絵名 & 暁山瑞希) - Single"
+        album_artist: Nightcord at 25:00
+        artist: Nightcord at 25:00
+        begin: 0
+        bitrate: 126
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 144161
+        path: /home/ciel/Music/Playlist/Bug ⧸ 25時、ナイトコードで。  × 鏡音リン【3DMV】.opus
+        samplerate: 48000
+        title: "bug (feat. 宵崎奏, 朝比奈まふゆ, 東雲絵名, 暁山瑞希 & 鏡音レン)"
+        track_number: 2
+        year: 2023
+      - album: Ruler of My Heart (VIVINOS - ALNST Original Soundtrack Part.5) - Single
+        album_artist: "BL8M & RUBYEYE"
+        artist: "BL8M & RUBYEYE"
+        begin: 0
+        bitrate: 139
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 218701
+        path: /home/ciel/Music/Playlist/Ruler of My Heart (VIVINOS - ALNST Original Soundtrack Part.5).opus
+        samplerate: 48000
+        title: Ruler of My Heart (VIVINOS - ALNST Original Soundtrack Part.5)
+        track_number: 1
+        year: 2023
+      - album: spiral - Single
+        album_artist: LONGMAN
+        artist: LONGMAN
+        begin: 0
+        bitrate: 131
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 231561
+        path: /home/ciel/Music/Playlist/spiral - LONGMAN.opus
+        samplerate: 48000
+        title: spiral
+        track_number: 1
+        year: 2023
+      - album: THE GREATEST UNKNOWN
+        album_artist: King Gnu
+        artist: King Gnu
+        begin: 0
+        bitrate: 121
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 239001
+        path: /home/ciel/Music/Playlist/SPECIALZ.opus
+        samplerate: 48000
+        title: SPECIALZ
+        track_number: 4
+        year: 2023
+      - album: Ahoy!! You're All Pirates♡
+        album_artist: Houshou Marine
+        artist: Houshou Marine
+        begin: 0
+        bitrate: 130
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 194961
+        path: /home/ciel/Music/Playlist/Horny Money World ~伝説の夜~【original anime MV】【hololive⧸宝鐘マリン】.opus
+        samplerate: 48000
+        title: A Horny Money World 〜legendary night〜
+        track_number: 8
+        year: 2024
+      - album: Bad Apple!! - Single
+        album_artist: "girl_dm_ & Darkbluecat"
+        artist: "girl_dm_ & Darkbluecat"
+        begin: 0
+        bitrate: 119
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 219101
+        path: /home/ciel/Music/Playlist/Bad Apple!! ＰＶ【影絵】.opus
+        samplerate: 48000
+        title: Bad Apple!! (Full Version)
+        track_number: 1
+        year: 2024
+      - album: BALALAIKA - Single
+        album_artist: 9Lana
+        artist: 9Lana
+        begin: 0
+        bitrate: 133
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 191561
+        path: /home/ciel/Music/Playlist/BALALAIKA ⧸  9Lana.opus
+        samplerate: 48000
+        title: BALALAIKA
+        track_number: 1
+        year: 2024
+      - album: Blink Gone (VIVINOS - ALNST Original Soundtrack Part.8) - Single
+        album_artist: "BL8M & AKUGETSU"
+        artist: "BL8M & AKUGETSU"
+        begin: 0
+        bitrate: 302
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 271755
+        path: /home/ciel/Music/Playlist/Blink Gone.opus
+        samplerate: 48000
+        title: Blink Gone (VIVINOS - ALNST Original Soundtrack Part.8)
+        track_number: 1
+        year: 2024
+      - album: Brain - Single
+        album_artist: Kanaria
+        artist: Kanaria
+        begin: 0
+        bitrate: 142
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 156901
+        path: /home/ciel/Music/Playlist/BRAIN 【Kanaria】.opus
+        samplerate: 48000
+        title: Brain
+        track_number: 1
+        year: 2024
+      - album: Bunny Girl - EP
+        album_artist: AKASAKI
+        artist: AKASAKI
+        begin: 0
+        bitrate: 134
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 216561
+        path: /home/ciel/Music/Playlist/Bunny Girl 【AKASAKI】⧸ バニーガール（Lyric Video）.opus
+        samplerate: 48000
+        title: Bunny Girl
+        track_number: 1
+        year: 2024
+      - album: Call - Single
+        album_artist: tricot
+        artist: tricot
+        begin: 0
+        bitrate: 131
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 228881
+        path: /home/ciel/Music/Playlist/Meido samaおとずれ - tricot.opus
+        samplerate: 48000
+        title: Call
+        track_number: 1
+        year: 2024
+      - album: CHINCHIRO-RHYTHM - Single
+        album_artist: 9Lana
+        artist: 9Lana
+        begin: 0
+        bitrate: 129
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 203781
+        path: /home/ciel/Music/Playlist/CHINCHIRO-RHYTHM【MV】チンチロリズム⧸9Lana.opus
+        samplerate: 48000
+        title: CHINCHIRO-RHYTHM
+        track_number: 1
+        year: 2024
+      - album: Cure (VIVINOS - ALNST Original Soundtrack Part.7) - Single
+        album_artist: "AKUGETSU & PARK BYEONG HOON"
+        artist: "AKUGETSU & PARK BYEONG HOON"
+        begin: 0
+        bitrate: 322
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 247941
+        path: /home/ciel/Music/Playlist/Cure__VIVINOS_-_ALNST_Original_Soundtrack_Part_7_.opus
+        samplerate: 48000
+        title: Cure (VIVINOS - ALNST Original Soundtrack Part.7)
+        track_number: 1
+        year: 2024
+      - album: Daemon / Doll
+        album_artist: Jamie Paige
+        artist: Jamie Paige
+        begin: 0
+        bitrate: 320
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 286441
+        path: /home/ciel/Music/Playlist/Machine_Love__feat__Kasane_Teto_.opus
+        samplerate: 48000
+        title: Machine Love
+        track_number: 10
+        year: 2024
+      - album: "Drunk & Party (VIVINOS - ALNST Sub : Hyuna Part.2) - Single"
+        album_artist: 6FU;
+        artist: 6FU;
+        begin: 0
+        bitrate: 316
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 161076
+        path: /home/ciel/Music/Playlist/Drunk___Party__VIVINOS_-_ALNST_Sub___Hyuna_Part_2_.opus
+        samplerate: 48000
+        title: "Drunk & Party (VIVINOS - ALNST Sub : Hyuna Part.2)"
+        track_number: 1
+        year: 2024
+      - album: Episode X - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 117
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 225261
+        path: /home/ciel/Music/Playlist/Episode X .opus
+        samplerate: 48000
+        title: Episode X
+        track_number: 1
+        year: 2024
+      - album: Harpy Hare - Single
+        album_artist: Yaelokre
+        artist: Yaelokre
+        begin: 0
+        bitrate: 124
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 179561
+        path: /home/ciel/Music/Playlist/Harpy Hare 𓆱Yaelokre   (Illustrated Song).opus
+        samplerate: 48000
+        title: Harpy Hare
+        track_number: 1
+        year: 2024
+      - album: He's My Man - Single
+        album_artist: Luvcat
+        artist: Luvcat
+        begin: 0
+        bitrate: 135
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 233021
+        path: /home/ciel/Music/Playlist/He's My Man ~ Luvcat  {lyric video}.opus
+        samplerate: 48000
+        title: He's My Man
+        track_number: 1
+        year: 2024
+      - album: "Honkai: Star Rail - Experience the Paths Vol. 2 (Original Game Soundtrack)"
+        album_artist: Honkari Star rail
+        artist: "Honkai: Star Rail "
+        begin: 0
+        bitrate: 137
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 198221
+        path: /home/ciel/Music/Playlist/Black Swan and Acheron dancing but it's only the music.opus
+        samplerate: 48000
+        title: Rondo Across Countless Kalpas(instrumental)
+        track_number: 20
+        year: 2024
+      - album: Mimukauwa Nice Try (feat. HATSUNE MIKU) - Single
+        album_artist: nunununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununu
+        artist: nunununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununununu
+        begin: 0
+        bitrate: 128
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 218221
+        path: /home/ciel/Music/Playlist/Mimukauwa Nice Try.opus
+        samplerate: 48000
+        title: Mimukauwa Nice Try (feat. HATSUNE MIKU)
+        track_number: 1
+        year: 2024
+      - album: "Minecraft: 1.21 Soundtrack"
+        album_artist: "Lena Raine & Minecraft"
+        artist: "Lena Raine & Minecraft"
+        begin: 0
+        bitrate: 150
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 177441
+        path: /home/ciel/Music/Playlist/Creator.opus
+        samplerate: 48000
+        title: Creator
+        track_number: 10
+        year: 2024
+      - album: MIRROR - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 133
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 179781
+        path: /home/ciel/Music/Playlist/MIRROR 【Ado】.opus
+        samplerate: 48000
+        title: MIRROR
+        track_number: 1
+        year: 2024
+      - album: Monitoring - Single
+        album_artist: DECO*27
+        artist: DECO*27
+        begin: 0
+        bitrate: 129
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 181361
+        path: /home/ciel/Music/Playlist/Monitoring - DECO＊27 - モニタリング feat. 初音ミク.opus
+        samplerate: 48000
+        title: Monitoring
+        track_number: 1
+        year: 2024
+      - album: Netsuretsu! Anison Spirits The Masterpiece series of Animesong cover [The Apothecary Diaries] OP Hana ni Natte - Single
+        album_artist: Ra-ko
+        artist: Ra-ko
+        begin: 0
+        bitrate: 313
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 197161
+        path: /home/ciel/Music/Playlist/_HD__Hana_ni_Natte_Lyrics_______Be_a_Flower_-_Apothecary_Diaries__________OP________.opus
+        samplerate: 48000
+        title: Hana ni Natte (The Apothecary Diaries OP)
+        track_number: 1
+        year: 2024
+      - album: propose - Single
+        album_artist: 9Lana
+        artist: 9Lana
+        begin: 0
+        bitrate: 124
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 233681
+        path: /home/ciel/Music/Playlist/Propose⧸ 9Lana cover.opus
+        samplerate: 48000
+        title: propose
+        track_number: 1
+        year: 2024
+      - album: Sakura Biyori and Time Machine / Shoka - Single
+        album_artist: "Ado "
+        artist: Ado
+        begin: 0
+        bitrate: 135
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 330021
+        path: /home/ciel/Music/Playlist/Sakura Biyori ~【Ado】.opus
+        samplerate: 48000
+        title: Sakura Biyori and Time Machine
+        track_number: 1
+        year: 2024
+      - album: Shoka - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 121
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 235241
+        path: /home/ciel/Music/Playlist/Shoka【Ado】初夏 (Shoka).opus
+        samplerate: 48000
+        title: Shoka
+        track_number: 1
+        year: 2024
+      - album: Supernatural - Single
+        album_artist: NewJeans
+        artist: NewJeans
+        begin: 0
+        bitrate: 329
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 191065
+        path: /home/ciel/Music/Playlist/NewJeans____________Supernatural__Official_Audio.opus
+        samplerate: 48000
+        title: Supernatural
+        track_number: 1
+        year: 2024
+      - album: Tetoris - Single
+        album_artist: Hiiragi Magnetite
+        artist: Hiiragi Magnetite
+        begin: 0
+        bitrate: 131
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 142581
+        path: /home/ciel/Music/Playlist/Tetoris.opus
+        samplerate: 48000
+        title: Tetoris
+        track_number: 1
+        year: 2024
+      - album: Value - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 126
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 192181
+        path: /home/ciel/Music/Playlist/Value【Ado】.opus
+        samplerate: 48000
+        title: Value
+        track_number: 1
+        year: 2024
+      - album: Zanmu
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 127
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 198461
+        path: /home/ciel/Music/Playlist/Rule【Ado】ルル (RuLe).opus
+        samplerate: 48000
+        title: RuLe
+        track_number: 12
+        year: 2024
+      - album: "2025 SMTOWN : THE CULTURE, THE FUTURE"
+        album_artist: TVXQ!
+        artist: TVXQ!
+        begin: 0
+        bitrate: 314
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 215516
+        path: /home/ciel/Music/Playlist/Red_Velvet_______Psycho__MV.opus
+        samplerate: 48000
+        title: Psycho
+        track_number: 12
+        year: 2025
+      - album: Ado's Best Adobum
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 124
+        channels: 2
+        cue: false
+        disc_number: 1/2
+        duration: 230801
+        path: /home/ciel/Music/Playlist/Rockstar【Ado】ロックスター.opus
+        samplerate: 48000
+        title: ROCKSTAR
+        track_number: 16
+        year: 2025
+      - album: Baby Baby Baby - Single
+        album_artist: "Masami Okui & Bonjour Suzuki"
+        artist: "Masami Okui & Bonjour Suzuki"
+        begin: 0
+        bitrate: 224
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 128880
+        path: /home/ciel/Music/Playlist/Please put them on takamine .opus
+        samplerate: 48000
+        title: Baby Baby Baby
+        track_number: 1
+        year: 2025
+      - album: Bouquet for Me - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 133
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 226741
+        path: /home/ciel/Music/Playlist/Bouquet for me【Ado】わたしに花束.opus
+        samplerate: 48000
+        title: Bouquet for Me
+        track_number: 1
+        year: 2025
+      - album: Butcher Vanity - Single
+        album_artist: Meatokki
+        artist: Meatokki
+        begin: 0
+        bitrate: 127
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 185621
+        path: /home/ciel/Music/Playlist/BUTCHER VANITY ft. Yi Xi.opus
+        samplerate: 48000
+        title: Butcher Vanity
+        track_number: 1
+        year: 2025
+      - album: Elf - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 321
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 262014
+        path: /home/ciel/Music/Playlist/Elf ado.opus
+        samplerate: 48000
+        title: Elf
+        track_number: 1
+        year: 2025
+      - album: Fake Medicine - Single
+        album_artist: RIDEREX
+        artist: RIDEREX
+        begin: 0
+        bitrate: 149
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 120361
+        path: /home/ciel/Music/Playlist/Dr. kedori.opus
+        samplerate: 48000
+        title: Fake Medicine (feat. Kasane Teto)
+        track_number: 1
+        year: 2025
+      - album: gotcha!/kill me baby - Single
+        album_artist: cupid tem
+        artist: cupid tem
+        begin: 0
+        bitrate: 137
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 176701
+        path: /home/ciel/Music/Playlist/Kill em baby《キルミーベイベー》 NCED ふたりのきもちのほんとのひみつ Full Version.opus
+        samplerate: 48000
+        title: kill me baby
+        track_number: 2
+        year: 2025
+      - album: JANE DOE - Single
+        album_artist: "Kenshi Yonezu & Hikaru Utada"
+        artist: "Kenshi Yonezu & Hikaru Utada"
+        begin: 0
+        bitrate: 126
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 246181
+        path: /home/ciel/Music/Playlist/JANE DOE 米津玄師, 宇多田ヒカル Kenshi Yonezu, Hikaru Utada.opus
+        samplerate: 48000
+        title: JANE DOE
+        track_number: 1
+        year: 2025
+      - album: KARMA (VIVINOS - ALNST Original Soundtrack Part.10) - Single
+        album_artist: "RUBYEYE & C!naH"
+        artist: "RUBYEYE & C!naH"
+        begin: 0
+        bitrate: 328
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 336044
+        path: /home/ciel/Music/Playlist/KARMA__VIVINOS_-_ALNST_Original_Soundtrack_Part_10_.opus
+        samplerate: 48000
+        title: KARMA (VIVINOS - ALNST Original Soundtrack Part.10)
+        track_number: 1
+        year: 2025
+      - album: Looping the Rooms / Lambent Aria (feat. HATSUNE MIKU) - Single
+        album_artist: Rusino
+        artist: Rusino
+        begin: 0
+        bitrate: 124
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 134121
+        path: /home/ciel/Music/Playlist/＂Looping the Roomsループザルーム feat 初音ミク ⧸ Hatsune Miku.opus
+        samplerate: 48000
+        title: Looping the Rooms (feat. HATSUNE MIKU)
+        track_number: 1
+        year: 2025
+      - album: MAGIC - Single
+        album_artist: Ado
+        artist: Ado
+        begin: 0
+        bitrate: 129
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 171521
+        path: /home/ciel/Music/Playlist/MAGIC 【Ado】.opus
+        samplerate: 48000
+        title: MAGIC
+        track_number: 1
+        year: 2025
+      - album: PERSONA LIVE TOUR 2024 -more ahead-
+        album_artist: 高橋あず美・Lotus Juice
+        artist: 高橋あず美・Lotus Juice
+        begin: 0
+        bitrate: 124
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 186101
+        path: /home/ciel/Music/Playlist/It's Going Down Now.opus
+        samplerate: 48000
+        title: It's Going Down Now (Live at KT Zepp Yokohama 2024.6.8 Yoru Koen)
+        track_number: 9
+        year: 2025
+      - album: "PPPP (feat. 初音ミク & 重音テト) - Single"
+        album_artist: TAK
+        artist: TAK
+        begin: 0
+        bitrate: 136
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 156101
+        path: /home/ciel/Music/Playlist/PPPP- [MV] TAK  feat. 初音ミク、重音テト.opus
+        samplerate: 48000
+        title: "PPPP (feat. 初音ミク & 重音テト)"
+        track_number: 1
+        year: 2025
+      - album: Propose - Single
+        album_artist: natori
+        artist: natori
+        begin: 0
+        bitrate: 319
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 178434
+        path: /home/ciel/Music/Playlist/Propose ~ Natori.opus
+        samplerate: 48000
+        title: Propose
+        track_number: 1
+        year: 2025
+      - album: Shizumeru-Machi (Sinking Town) [New Yoeko Ver.] - Single
+        album_artist: ヨエコ
+        artist: ヨエコ
+        begin: 0
+        bitrate: 117
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 69941
+        path: /home/ciel/Music/Playlist/Sinking town【Ado】倉橋ヨエコ - 沈める街 [Cover] (Yoeko Kurahashi - Shizumeru  [Cover]).opus
+        samplerate: 48000
+        title: Shizumeru-Machi (Sinking Town) [New Yoeko Ver.]
+        track_number: 1
+        year: 2025
+      - album: TURN OVER - EP
+        album_artist: 9Lana
+        artist: 9Lana
+        begin: 0
+        bitrate: 326
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 240977
+        path: /home/ciel/Music/Playlist/Kyubi_9lana.opus
+        samplerate: 48000
+        title: KYUBI
+        track_number: 2
+        year: 2025
+      - album: Wiege (VIVINOS - ALNST Original Soundtrack Part.9) - Single
+        album_artist: BL8M; 6FU;
+        artist: "BL8M & 6FU;"
+        begin: 0
+        bitrate: 137
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 235221
+        path: /home/ciel/Music/Playlist/Wiege (VIVINOS - ALNST Original Soundtrack Part.9).opus
+        samplerate: 48000
+        title: Wiege (VIVINOS - ALNST Original Soundtrack Part.9)
+        track_number: 1
+        year: 2025
+      - album: Yokanimitorete/D/N/A - Single
+        album_artist: Nightcord at 25:00
+        artist: Nightcord at 25:00
+        begin: 0
+        bitrate: 130
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 129601
+        path: /home/ciel/Music/Playlist/D⧸N⧸A ⧸ 25時、ナイトコードで。 × 鏡音リン.opus
+        samplerate: 48000
+        title: "D/N/A (feat. 宵崎奏, 朝比奈まふゆ, 東雲絵名, 暁山瑞希 & 鏡音リン)"
+        track_number: 2
+        year: 2025
+      - album: Brain Rot - Single
+        album_artist: Tokyo Manaka
+        artist: Tokyo Manaka
+        begin: 0
+        bitrate: 133
+        channels: 2
+        cue: false
+        disc_number: 1/1
+        duration: 125061
+        path: /home/ciel/Music/Playlist/Brainrot -東京真中 -  ブレインロット feat. 重音テト.opus
+        samplerate: 48000
+        title: Brain Rot
+        track_number: 1
+        year: 2026
+total_playback_time: 3
+window_geometry:
+  - 1
+  - -39
+  - -48
+  - -53
+  - 0
+  - 3
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 3
+  - -108
+  - 0
+  - 0
+  - 2
+  - 9
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - -1
+  - -1
+  - -1
+  - -2
+  - -1
+  - -1
+  - -1
+  - -2
+  - 0
+  - 0
+  - 0
+  - 0
+  - 2
+  - 0
+  - 0
+  - 0
+  - 7
+  - -128
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 3
+  - -108
+  - 0
+  - 0
+  - 2
+  - 9
+window_state:
+  - 0
+  - 0
+  - 0
+  - -1
+  - 0
+  - 0
+  - 0
+  - 0
+  - -3
+  - 0
+  - 0
+  - 0
+  - 1
+  - 0
+  - 0
+  - 0
+  - 1
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - -4
+  - 2
+  - 0
+  - 0
+  - 0
+  - 2
+  - -5
+  - 0
+  - 0
+  - 0
+  - 24
+  - 0
+  - 99
+  - 0
+  - 111
+  - 0
+  - 118
+  - 0
+  - 101
+  - 0
+  - 114
+  - 0
+  - 65
+  - 0
+  - 114
+  - 0
+  - 116
+  - 0
+  - 68
+  - 0
+  - 111
+  - 0
+  - 99
+  - 0
+  - 107
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - -1
+  - -1
+  - -1
+  - -1
+  - 0
+  - 0
+  - 0
+  - 114
+  - 1
+  - 0
+  - 0
+  - 3
+  - -5
+  - 0
+  - 0
+  - 0
+  - 20
+  - 0
+  - 108
+  - 0
+  - 121
+  - 0
+  - 114
+  - 0
+  - 105
+  - 0
+  - 99
+  - 0
+  - 115
+  - 0
+  - 68
+  - 0
+  - 111
+  - 0
+  - 99
+  - 0
+  - 107
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - -1
+  - -1
+  - -1
+  - -1
+  - 0
+  - 0
+  - 0
+  - -101
+  - 1
+  - 0
+  - 0
+  - 3
+  - 0
+  - 0
+  - 3
+  - -107
+  - 0
+  - 0
+  - 1
+  - -65
+  - 0
+  - 0
+  - 0
+  - 4
+  - 0
+  - 0
+  - 0
+  - 4
+  - 0
+  - 0
+  - 0
+  - 8
+  - 0
+  - 0
+  - 0
+  - 8
+  - -4
+  - 0
+  - 0
+  - 0
+  - 1
+  - 0
+  - 0
+  - 0
+  - 2
+  - 0
+  - 0
+  - 0
+  - 1
+  - 0
+  - 0
+  - 0
+  - 30
+  - 0
+  - 99
+  - 0
+  - 111
+  - 0
+  - 110
+  - 0
+  - 116
+  - 0
+  - 114
+  - 0
+  - 111
+  - 0
+  - 108
+  - 0
+  - 115
+  - 0
+  - 84
+  - 0
+  - 111
+  - 0
+  - 111
+  - 0
+  - 108
+  - 0
+  - 66
+  - 0
+  - 97
+  - 0
+  - 114
+  - 1
+  - 0
+  - 0
+  - 0
+  - 0
+  - -1
+  - -1
+  - -1
+  - -1
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0

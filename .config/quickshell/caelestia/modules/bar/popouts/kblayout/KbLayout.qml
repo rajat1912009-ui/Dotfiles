@@ -4,18 +4,24 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.services
+import ".."
 
 ColumnLayout {
     id: root
+
+    required property PopoutState popouts
+
+    property bool _isSidebarOpen: popouts.sidebarOpen && popouts.isHorizontal && popouts.currentSection === "end"
 
     function refresh() {
         kb.refresh();
     }
 
     spacing: Tokens.spacing.small
-    width: Tokens.sizes.bar.kbLayoutWidth
+    width: Math.max(Tokens.sizes.bar.kbLayoutWidth, _isSidebarOpen ? Tokens.sizes.sidebar.width - Tokens.padding.extraLargeIncreased : 0)
 
     Component.onCompleted: kb.start()
 
@@ -26,7 +32,7 @@ ColumnLayout {
     StyledText {
         Layout.topMargin: Tokens.padding.medium
         Layout.rightMargin: Tokens.padding.extraSmall
-        text: qsTr("Keyboard Layouts")
+        text: Tr.tr("Keyboard layouts")
         font: Tokens.font.body.builders.medium.weight(Font.Medium).build()
     }
 
@@ -90,7 +96,7 @@ ColumnLayout {
             width: list.width
             height: Math.max(36, rowText.implicitHeight + Tokens.padding.small)
             ToolTip.visible: isDisabled && layer.containsMouse
-            ToolTip.text: "XKB limitation: maximum 4 layouts allowed"
+            ToolTip.text: Tr.tr("XKB limitation: maximum 4 layouts allowed")
 
             StateLayer {
                 id: layer
