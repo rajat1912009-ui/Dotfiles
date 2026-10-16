@@ -1,0 +1,12 @@
+[Unit]
+Description=Wallpaper Picker
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/quickshell -n -p %h/qs-wallpaper-picker/Main.qml
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

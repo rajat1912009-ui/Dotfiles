@@ -2,12 +2,13 @@ pragma ComponentBehavior: Bound
 
 import QtQuick.Layouts
 import Caelestia.Config
+import Caelestia.I18n
 import qs.modules.nexus.common
 
 PageBase {
     id: root
 
-    title: qsTr("Tray")
+    title: Tr.tr("Tray")
     isSubPage: true
 
     ColumnLayout {
@@ -19,28 +20,48 @@ PageBase {
         ToggleRow {
             first: true
             text: qsTr("Background")
-            checked: Config.bar.tray.background
-            onToggled: GlobalConfig.bar.tray.background = checked
+            configNode: root.targetConfig.bar.tray
+            propertyName: "background"
+            checked: root.targetConfig.bar.tray.background
+            onToggled: {
+                root.targetConfig.bar.tray.background = checked;
+                root.targetConfig.save();
+            }
         }
 
         ToggleRow {
             text: qsTr("Recolour icons")
-            checked: Config.bar.tray.recolour
-            onToggled: GlobalConfig.bar.tray.recolour = checked
+            configNode: root.targetConfig.bar.tray
+            propertyName: "recolour"
+            checked: root.targetConfig.bar.tray.recolour
+            onToggled: {
+                root.targetConfig.bar.tray.recolour = checked;
+                root.targetConfig.save();
+            }
         }
 
         ToggleRow {
             text: qsTr("Compact")
-            checked: Config.bar.tray.compact
-            onToggled: GlobalConfig.bar.tray.compact = checked
+            configNode: root.targetConfig.bar.tray
+            propertyName: "compact"
+            checked: root.targetConfig.bar.tray.compact
+            onToggled: {
+                root.targetConfig.bar.tray.compact = checked;
+                root.targetConfig.save();
+            }
         }
 
         ToggleRow {
             last: true
             text: qsTr("Popout on hover")
             subtext: qsTr("Show the tray menu popout when hovering")
-            checked: Config.bar.popouts.tray
-            onToggled: GlobalConfig.bar.popouts.tray = checked
+            configNode: root.targetConfig.bar.popouts
+            propertyName: "tray"
+            checked: root.targetConfig.bar.popouts.tray
+            onToggled: {
+                root.targetConfig.bar.popouts.tray = checked;
+                root.targetConfig.save();
+            }
         }
     }
 }

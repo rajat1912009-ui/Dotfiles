@@ -1,8 +1,10 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Effects
 import Caelestia.Components
 import Caelestia.Config
+import Caelestia.I18n
 import Caelestia.Services
 import qs.components
 import qs.components.controls
@@ -79,7 +81,7 @@ Item {
 
         animate: true
         horizontalAlignment: Text.AlignHCenter
-        text: (Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title")
+        text: (Players.active?.trackTitle ?? Tr.tr("No media")) || Tr.tr("Unknown title")
         color: Colours.palette.m3primary
         font: Tokens.font.title.small
 
@@ -96,7 +98,7 @@ Item {
 
         animate: true
         horizontalAlignment: Text.AlignHCenter
-        text: (Players.active?.trackAlbum ?? qsTr("No media")) || qsTr("Unknown album")
+        text: (Players.active?.trackAlbum ?? Tr.tr("No media")) || Tr.tr("Unknown album")
         color: Colours.palette.m3outline
         font: Tokens.font.body.small
 
@@ -113,7 +115,7 @@ Item {
 
         animate: true
         horizontalAlignment: Text.AlignHCenter
-        text: (Players.active?.trackArtist ?? qsTr("No media")) || qsTr("Unknown artist")
+        text: (Players.active?.trackArtist ?? Tr.tr("No media")) || Tr.tr("Unknown artist")
         color: Colours.palette.m3secondary
 
         width: parent.implicitWidth - Tokens.padding.extraLargeIncreased
@@ -160,7 +162,7 @@ Item {
         }
     }
 
-    AnimatedImage {
+    Item {
         id: bongocat
 
         anchors.top: controls.bottom
@@ -171,10 +173,31 @@ Item {
         anchors.bottomMargin: Tokens.padding.large
         anchors.margins: Tokens.padding.extraLargeIncreased
 
-        playing: Players.active?.isPlaying ?? false
-        speed: Audio.beatTracker.bpm / Config.general.mediaGifSpeedAdjustment // qmllint disable unresolved-type
-        source: Paths.absolutePath(Config.paths.mediaGif)
-        asynchronous: true
-        fillMode: AnimatedImage.PreserveAspectFit
+        AnimatedImage {
+            id: gif
+
+            anchors.fill: parent
+
+            playing: Players.active?.isPlaying ?? false
+            speed: Audio.beatTracker.bpm / Config.general.mediaGifSpeedAdjustment // qmllint disable unresolved-type
+            source: Paths.absolutePath(Config.paths.mediaGif)
+            asynchronous: true
+            fillMode: AnimatedImage.PreserveAspectFit
+            visible: !Config.dashboard.useMediaShapes
+        }
+
+        MultiEffect {
+            anchors.fill: gif
+            source: gif
+
+            visible: Config.dashboard.colorizeMediaGif && !Config.dashboard.useMediaShapes
+            colorization: 1
+            colorizationColor: Colours.palette.m3primary
+        }
+
+        MediaShapes {
+            anchors.fill: parent
+            visible: Config.dashboard.useMediaShapes
+        }
     }
 }

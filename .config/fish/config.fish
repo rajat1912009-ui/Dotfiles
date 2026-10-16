@@ -44,16 +44,15 @@ if status is-interactive
     set -q XDG_CONFIG_HOME && set -l cConf $XDG_CONFIG_HOME/caelestia || set -l cConf $HOME/.config/caelestia
     source $cConf/user-config.fish 2> /dev/null
 end
+# Skwd app theme
+source (status dirname)/skwd-colors.fish
+# End Skwd app theme
+#
+#
+#---------------------------------------------
+#Aliases
+#100.108.6.124---------------------------------------------
+alias phonet='ssh -p 8022 u0_a325@100.108.6.124'
 
-if status is-login
-    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-        exec start-hyprland
-    end
-end
+alias phone='ssh -p 8022 u0_a325@192.168.0.103'
 
-
-# Force Caelestia Dynamic Vibrant Scheme on startup
-if status is-login
-    # Run in background after Hyprland IPC socket initializes
-    fish -c 'sleep 1; caelestia scheme set -m dynamic -v vibrant' &
-end

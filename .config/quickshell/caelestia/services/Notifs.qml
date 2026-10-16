@@ -7,6 +7,7 @@ import Quickshell.Io
 import Quickshell.Services.Notifications
 import Caelestia
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components.misc
 import qs.services
 import qs.utils
@@ -32,9 +33,32 @@ Singleton {
     function shouldShowPopup(): bool {
         if (props.dnd || ShellState.anySidebarOpen())
             return false;
-        if (GlobalConfig.notifs.fullscreen === "off" && hasFullscreen())
+        if (GlobalConfig.notifs.fullscreen === NotifsFullscreen.Off && hasFullscreen())
             return false;
         return true;
+    }
+
+    function clear(): void {
+        const toClose = [];
+        for (let i = 0; i < root.list.length; i++)
+            toClose.push(root.list[i]);
+        for (let i = 0; i < toClose.length; i++)
+            toClose[i].close();
+    }
+
+    function addCustomNotification(summary: string, body: string, appIcon: string, actions: list<var>, expanded: bool): NotifData {
+        const notif = notifComp.createObject(root, {
+            popup: root.shouldShowPopup(),
+            resident: true,
+            summary: summary,
+            body: body,
+            appIcon: appIcon,
+            appName: "Quick Share",
+            actions: actions,
+            forceExpand: expanded ? true : false
+        });
+        root.list = [notif, ...root.list];
+        return notif;
     }
 
     onDndChanged: {
@@ -42,9 +66,9 @@ Singleton {
             return;
 
         if (dnd)
-            Toaster.toast(qsTr("Do not disturb enabled"), qsTr("Popup notifications are now disabled"), "do_not_disturb_on");
+            Toaster.toast(Tr.tr("Do not disturb enabled"), Tr.tr("Popup notifications are now disabled"), "do_not_disturb_on");
         else
-            Toaster.toast(qsTr("Do not disturb disabled"), qsTr("Popup notifications are now enabled"), "do_not_disturb_off");
+            Toaster.toast(Tr.tr("Do not disturb disabled"), Tr.tr("Popup notifications are now enabled"), "do_not_disturb_off");
     }
 
     onListChanged: {
@@ -99,6 +123,9 @@ Singleton {
                 notification: notif
             });
             root.list = [comp, ...root.list];
+
+            if (!props.dnd && notif.appName !== "caelestia-cli" && !GlobalConfig.audio.sounds.disabledNotifApps.includes(notif.appName))
+                Audio.playNotification();
         }
     }
 
@@ -135,16 +162,12 @@ Singleton {
         // qmllint enable unresolved-type
         name: "clearNotifs"
         description: "Clear all notifications"
-        onPressed: {
-            for (const notif of root.list.slice())
-                notif.close();
-        }
+        onPressed: root.clear()
     }
 
     IpcHandler {
         function clear(): void {
-            for (const notif of root.list.slice())
-                notif.close();
+            root.clear();
         }
 
         function isDndEnabled(): bool {

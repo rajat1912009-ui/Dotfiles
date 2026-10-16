@@ -6,6 +6,7 @@ import Quickshell.Io
 import Quickshell.Services.Mpris
 import Caelestia
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components.misc
 
 Singleton {
@@ -15,14 +16,25 @@ Singleton {
     readonly property MprisPlayer active: props.manualActive ?? list.find(p => getIdentity(p) === GlobalConfig.services.defaultPlayer) ?? list[0] ?? null
     property alias manualActive: props.manualActive
 
+    // Apps that expose in-app volume control over MPRIS. Sources not in this list
+    // fall back to per-stream PipeWire volume control. Add new entries here.
+    readonly property list<string> appVolumePlayers: [ "Spotify", "Fastpotify" ]
+
     // Dedup key for progressive metadata (e.g. mpv-mpris/yt-dlp player fills title then artist later).
     property string lastNowPlayingKey: ""
 
     function getIdentity(player: MprisPlayer): string {
         if (!player)
             return "";
-        const alias = GlobalConfig.services.playerAliases.find(a => a.from === player.identity);
+        const alias = GlobalConfig.services.playerAliases.values.find(a => a.from === player.identity);
         return alias?.to ?? player.identity;
+    }
+
+    function supportsAppVolume(player: MprisPlayer): bool {
+        if (!player)
+            return false;
+        const identity = root.getIdentity(player).toLowerCase();
+        return root.appVolumePlayers.some(id => identity.includes(id.toLowerCase()));
     }
 
     function getArtUrl(player: MprisPlayer): string {
@@ -61,7 +73,7 @@ Singleton {
             return;
 
         lastNowPlayingKey = key;
-        Toaster.toast(qsTr("Now Playing"), qsTr("%1 - %2").arg(artist).arg(title), "music_note");
+        Toaster.toast(Tr.tr("Now playing"), Tr.trCtx("%1 - %2", "track artist and title").arg(artist).arg(title), "music_note");
     }
 
     onActiveChanged: lastNowPlayingKey = ""

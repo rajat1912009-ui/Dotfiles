@@ -9,12 +9,12 @@
       "flipEffect": "Ignite",
       "hexParallax": true,
       "hexShape": "hexagon",
-      "lastAppliedKey": "static:wallhaven-jed6jm.jpg",
+      "lastAppliedKey": "static:misc/csm.jpg",
       "lastBrowsePosition": {
-        "anchor": "video:youtube-kuEN5YnKTko.mp4",
-        "camera": 5896.0,
+        "anchor": "static:misc/csm.jpg",
+        "camera": 17064.0,
         "layout": "330bdfd1b1fb9a22",
-        "selection": "static:wallhaven-jed6jm.jpg"
+        "selection": "static:misc/csm.jpg"
       },
       "presets": {
         "hex": [
@@ -140,6 +140,9 @@
           "theme.wallustPalette": ""
         },
         "settingsPinned": true
+      },
+      {
+        "key": "static:wallhaven-qrpj65.jpg"
       }
     ]
   },
@@ -147,5 +150,5 @@
     "durationMs": 200,
     "shader": "random"
   },
-  "wallpaperMute": true
+  "wallpaperMute": false
 }

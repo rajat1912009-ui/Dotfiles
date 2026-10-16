@@ -2,12 +2,13 @@ pragma ComponentBehavior: Bound
 
 import QtQuick.Layouts
 import Caelestia.Config
+import Caelestia.I18n
 import qs.modules.nexus.common
 
 PageBase {
     id: root
 
-    title: qsTr("Clock")
+    title: Tr.tr("Clock")
     isSubPage: true
 
     ColumnLayout {
@@ -19,21 +20,47 @@ PageBase {
         ToggleRow {
             first: true
             text: qsTr("Background")
-            checked: Config.bar.clock.background
-            onToggled: GlobalConfig.bar.clock.background = checked
+            configNode: root.targetConfig.bar.clock
+            propertyName: "background"
+            checked: root.targetConfig.bar.clock.background
+            onToggled: {
+                root.targetConfig.bar.clock.background = checked;
+                root.targetConfig.save();
+            }
         }
 
         ToggleRow {
             text: qsTr("Show date")
-            checked: Config.bar.clock.showDate
-            onToggled: GlobalConfig.bar.clock.showDate = checked
+            configNode: root.targetConfig.bar.clock
+            propertyName: "showDate"
+            checked: root.targetConfig.bar.clock.showDate
+            onToggled: {
+                root.targetConfig.bar.clock.showDate = checked;
+                root.targetConfig.save();
+            }
+        }
+
+        ToggleRow {
+            text: qsTr("Show icon")
+            configNode: root.targetConfig.bar.clock
+            propertyName: "showIcon"
+            checked: root.targetConfig.bar.clock.showIcon
+            onToggled: {
+                root.targetConfig.bar.clock.showIcon = checked;
+                root.targetConfig.save();
+            }
         }
 
         ToggleRow {
             last: true
-            text: qsTr("Show icon")
-            checked: Config.bar.clock.showIcon
-            onToggled: GlobalConfig.bar.clock.showIcon = checked
+            text: qsTr("Show seconds")
+            configNode: root.targetConfig.bar.clock
+            propertyName: "showSeconds"
+            checked: root.targetConfig.bar.clock.showSeconds
+            onToggled: {
+                root.targetConfig.bar.clock.showSeconds = checked;
+                root.targetConfig.save();
+            }
         }
     }
 }

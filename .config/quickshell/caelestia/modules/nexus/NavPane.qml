@@ -2,6 +2,7 @@ import "navpane"
 import QtQuick
 import QtQuick.Layouts
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.components.controls
 import qs.services
@@ -17,9 +18,10 @@ ColumnLayout {
     SearchBar {
         id: searchField
 
+        z: 3
         Layout.fillWidth: true
 
-        placeholderText: qsTr("Search settings")
+        placeholderText: Tr.tr("Search settings")
         font: Tokens.font.body.large
 
         bg.color: Colours.tPalette.m3surfaceContainerLowest
@@ -40,7 +42,14 @@ ColumnLayout {
         }
     }
 
+    MonitorTargetSelector {
+        z: 2
+        Layout.fillWidth: true
+        nState: root.nState
+    }
+
     NavLocations {
+        z: 1
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.topMargin: -topMargin

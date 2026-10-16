@@ -1,0 +1,494 @@
+#!/usr/bin/env python3
+"""
+ViDAPT - Video/Wallpaper Asset Processing Tool
+
+Conservative wallpaper optimizer:
+- Recursively scans a directory.
+- Leaves static images untouched.
+- Inspects MP4 videos with ffprobe JSON.
+- Transcodes only videos that exceed the configured target profile.
+- Preserves audio by stream-copying it when possible.
+- Preserves container metadata and chapters.
+- Writes to a temporary MP4 and replaces the original only after a successful encode.
+
+Current default target profile:
+    max resolution: 1920x1080 (aspect ratio preserved, no intentional upscaling)
+    max frame rate: 60 fps
+    video codec:    H.264 (libx264)
+    pixel format:   yuv420p
+    audio:          copied, never deliberately removed
+
+The script is intentionally conservative. It does not recompress still images,
+normalize every video, or make decisions based on bitrate alone.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import stat
+import subprocess
+import sys
+import tempfile
+from fractions import Fraction
+from pathlib import Path
+
+
+IMAGE_EXTENSIONS = {
+    ".jpg", ".jpeg", ".png", ".webp", ".avif", ".bmp", ".gif",
+    ".tif", ".tiff", ".jxl", ".heic", ".heif",
+}
+
+VIDEO_EXTENSIONS = {
+    ".mp4", ".m4v", ".mov", ".mkv", ".webm", ".avi", ".wmv", ".flv",
+}
+
+
+class Colors:
+    RESET = "\033[0m"
+    DIM = "\033[2m"
+    BOLD = "\033[1m"
+    GREEN = "\033[32m"
+    YELLOW = "\033[33m"
+    RED = "\033[31m"
+    CYAN = "\033[36m"
+
+
+def colorize(text: str, color: str, enabled: bool) -> str:
+    return f"{color}{text}{Colors.RESET}" if enabled else text
+
+
+def parse_fraction(value: str | None) -> Fraction | None:
+    if not value or value in {"0/0", "N/A", "0", "-"}:
+        return None
+    try:
+        if "/" in value:
+            num, den = value.split("/", 1)
+            if int(den) == 0:
+                return None
+            return Fraction(int(num), int(den))
+        return Fraction(value)
+    except (ValueError, ZeroDivisionError):
+        return None
+
+
+def format_fps(fps: Fraction | None) -> str:
+    if fps is None:
+        return "unknown"
+    value = float(fps)
+    if abs(value - round(value)) < 0.01:
+        return str(int(round(value)))
+    return f"{value:.2f}"
+
+
+def require_tools() -> None:
+    missing = [name for name in ("ffprobe", "ffmpeg") if shutil.which(name) is None]
+    if missing:
+        raise SystemExit(
+            "Missing required tool(s): " + ", ".join(missing) +
+            "\nInstall FFmpeg first (ffprobe is included with FFmpeg)."
+        )
+
+
+def run_ffprobe(path: Path) -> dict:
+    command = [
+        "ffprobe",
+        "-v", "error",
+        "-show_streams",
+        "-show_format",
+        "-of", "json",
+        str(path),
+    ]
+    result = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "ffprobe failed")
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"ffprobe returned invalid JSON: {exc}") from exc
+
+
+def get_video_stream(info: dict) -> dict | None:
+    for stream in info.get("streams", []):
+        if stream.get("codec_type") == "video":
+            return stream
+    return None
+
+
+def get_audio_streams(info: dict) -> list[dict]:
+    return [
+        stream for stream in info.get("streams", [])
+        if stream.get("codec_type") == "audio"
+    ]
+
+
+def video_fps(stream: dict) -> Fraction | None:
+    return (
+        parse_fraction(stream.get("avg_frame_rate"))
+        or parse_fraction(stream.get("r_frame_rate"))
+    )
+
+
+def needs_transcode(
+    stream: dict,
+    *,
+    max_width: int,
+    max_height: int,
+    max_fps: Fraction,
+    target_codec: str,
+    target_pix_fmt: str,
+) -> tuple[bool, list[str]]:
+    reasons: list[str] = []
+
+    width = stream.get("width")
+    height = stream.get("height")
+    fps = video_fps(stream)
+    codec = (stream.get("codec_name") or "").lower()
+    pix_fmt = (stream.get("pix_fmt") or "").lower()
+
+    if isinstance(width, int) and width > max_width:
+        reasons.append(f"width {width} > {max_width}")
+    if isinstance(height, int) and height > max_height:
+        reasons.append(f"height {height} > {max_height}")
+    if fps is not None and fps > max_fps:
+        reasons.append(f"fps {format_fps(fps)} > {format_fps(max_fps)}")
+    if codec != target_codec.lower():
+        reasons.append(f"codec {codec or 'unknown'} != {target_codec}")
+    if pix_fmt != target_pix_fmt.lower():
+        reasons.append(f"pixel format {pix_fmt or 'unknown'} != {target_pix_fmt}")
+
+    return bool(reasons), reasons
+
+
+def build_filter(
+    *,
+    max_width: int,
+    max_height: int,
+    cap_fps: bool,
+    max_fps: Fraction,
+) -> str:
+    # Preserve aspect ratio and keep both dimensions at or below the target.
+    filters = [
+        f"scale={max_width}:{max_height}:force_original_aspect_ratio=decrease:flags=bilinear"
+    ]
+    if cap_fps:
+        fps_num = max_fps.numerator
+        fps_den = max_fps.denominator
+        fps_value = f"{fps_num}/{fps_den}" if fps_den != 1 else str(fps_num)
+        filters.append(f"fps={fps_value}")
+    return ",".join(filters)
+
+
+def transcode_video(
+    path: Path,
+    *,
+    stream: dict,
+    info: dict,
+    max_width: int,
+    max_height: int,
+    max_fps: Fraction,
+    crf: int,
+    preset: str,
+    dry_run: bool,
+    use_color: bool,
+) -> bool:
+    fps = video_fps(stream)
+    filter_chain = build_filter(
+        max_width=max_width,
+        max_height=max_height,
+        cap_fps=fps is not None and fps > max_fps,
+        max_fps=max_fps,
+    )
+
+    audio_streams = get_audio_streams(info)
+    had_audio = bool(audio_streams)
+
+    print(
+        "  " + colorize("TRANSCODE", Colors.YELLOW, use_color) +
+        f"  {path}\n"
+        f"             reason(s): handled by target profile\n"
+        f"             filter:    {filter_chain}\n"
+        f"             audio:     {'preserved (stream copy)' if had_audio else 'none'}"
+    )
+
+    if dry_run:
+        return True
+
+    original_stat = path.stat()
+    temp_fd, temp_name = tempfile.mkstemp(
+        prefix=f".{path.stem}.vidapt-",
+        suffix=".mp4",
+        dir=path.parent,
+    )
+    os.close(temp_fd)
+    temp_path = Path(temp_name)
+
+    # Use explicit mapping so audio is retained when it exists.
+    command = [
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel", "error",
+        "-y",
+        "-i", str(path),
+        "-map", "0:v:0",
+        "-map", "0:a?",
+        "-map_metadata", "0",
+        "-map_chapters", "0",
+        "-vf", filter_chain,
+        "-c:v", "libx264",
+        "-preset", preset,
+        "-crf", str(crf),
+        "-pix_fmt", "yuv420p",
+        "-c:a", "copy",
+        str(temp_path),
+    ]
+
+    try:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        if result.returncode != 0:
+            print(
+                "  " + colorize("FAILED", Colors.RED, use_color) +
+                f"   {path}\n"
+                f"             ffmpeg: {result.stderr.strip() or 'unknown error'}"
+            )
+            return False
+
+        if not temp_path.exists() or temp_path.stat().st_size == 0:
+            print(
+                "  " + colorize("FAILED", Colors.RED, use_color) +
+                f"   {path}\n"
+                "             ffmpeg produced no usable output"
+            )
+            return False
+
+        # Keep the original file's basic mode/timestamps.
+        os.chmod(temp_path, stat.S_IMODE(original_stat.st_mode))
+        os.utime(
+            temp_path,
+            ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns),
+        )
+
+        os.replace(temp_path, path)
+        print("  " + colorize("REPLACED", Colors.GREEN, use_color) + f" {path}")
+        return True
+    finally:
+        if temp_path.exists():
+            try:
+                temp_path.unlink()
+            except OSError:
+                pass
+
+
+def iter_files(root: Path):
+    # Path.rglob is recursive and naturally handles arbitrarily nested wallpaper folders.
+    for path in root.rglob("*"):
+        if path.is_file():
+            yield path
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="ViDAPT",
+        description="Conservatively optimize wallpaper videos without touching static images.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "-f", "--folder",
+        required=True,
+        type=Path,
+        help="root wallpaper directory to scan recursively",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="inspect and report what would change, but do not modify files",
+    )
+    parser.add_argument(
+        "--max-width",
+        type=int,
+        default=1920,
+        help="maximum video width before scaling",
+    )
+    parser.add_argument(
+        "--max-height",
+        type=int,
+        default=1080,
+        help="maximum video height before scaling",
+    )
+    parser.add_argument(
+        "--max-fps",
+        type=str,
+        default="60",
+        help="maximum output frame rate, as a number or fraction (e.g. 60000/1001)",
+    )
+    parser.add_argument(
+        "--crf",
+        type=int,
+        default=23,
+        help="x264 constant-rate-factor used when transcoding",
+    )
+    parser.add_argument(
+        "--preset",
+        default="fast",
+        choices=("ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow"),
+        help="x264 encoding speed/size tradeoff",
+    )
+    parser.add_argument(
+        "--no-color",
+        action="store_true",
+        help="disable ANSI colors",
+    )
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    use_color = sys.stdout.isatty() and not args.no_color
+
+    if not args.folder.exists():
+        print(colorize(f"Error: directory does not exist: {args.folder}", Colors.RED, use_color), file=sys.stderr)
+        return 2
+    if not args.folder.is_dir():
+        print(colorize(f"Error: not a directory: {args.folder}", Colors.RED, use_color), file=sys.stderr)
+        return 2
+
+    max_fps = parse_fraction(args.max_fps)
+    if max_fps is None or max_fps <= 0:
+        print(colorize("Error: --max-fps must be a positive number or fraction.", Colors.RED, use_color), file=sys.stderr)
+        return 2
+
+    if args.max_width <= 0 or args.max_height <= 0:
+        print(colorize("Error: maximum dimensions must be positive.", Colors.RED, use_color), file=sys.stderr)
+        return 2
+
+    require_tools()
+
+    print(colorize("ViDAPT", Colors.BOLD + Colors.CYAN if use_color else "", use_color))
+    print(f"Root:       {args.folder.expanduser().resolve()}")
+    print(f"Target:     <= {args.max_width}x{args.max_height}, <= {format_fps(max_fps)} fps")
+    print(f"Video:      H.264 / yuv420p / CRF {args.crf} / preset {args.preset}")
+    print("Audio:      preserved when present (stream copy)")
+    print(f"Mode:       {'DRY RUN' if args.dry_run else 'LIVE'}")
+    print()
+
+    counts = {
+        "files": 0,
+        "images": 0,
+        "videos": 0,
+        "already_ok": 0,
+        "transcoded": 0,
+        "failed": 0,
+        "skipped": 0,
+    }
+
+    for path in iter_files(args.folder.expanduser().resolve()):
+        counts["files"] += 1
+        suffix = path.suffix.lower()
+
+        if suffix in IMAGE_EXTENSIONS:
+            counts["images"] += 1
+            print("  " + colorize("IMAGE", Colors.DIM, use_color) + f"      {path}")
+            continue
+
+        if suffix not in VIDEO_EXTENSIONS:
+            counts["skipped"] += 1
+            print("  " + colorize("SKIP", Colors.DIM, use_color) + f"       {path}")
+            continue
+
+        counts["videos"] += 1
+
+        # The current replacement logic targets MP4. Non-MP4 files are inspected,
+        # but are deliberately not transcoded to avoid silently changing formats.
+        if suffix != ".mp4":
+            counts["skipped"] += 1
+            print(
+                "  " + colorize("SKIP", Colors.DIM, use_color) +
+                f"       {path} (non-MP4 video; current scope leaves it untouched)"
+            )
+            continue
+
+        try:
+            info = run_ffprobe(path)
+            stream = get_video_stream(info)
+            if stream is None:
+                counts["failed"] += 1
+                print("  " + colorize("FAILED", Colors.RED, use_color) + f"   {path} (no video stream found)")
+                continue
+
+            fps = video_fps(stream)
+            reasoned = needs_transcode(
+                stream,
+                max_width=args.max_width,
+                max_height=args.max_height,
+                max_fps=max_fps,
+                target_codec="h264",
+                target_pix_fmt="yuv420p",
+            )
+            should_transcode, reasons = reasoned
+
+            width = stream.get("width", "?")
+            height = stream.get("height", "?")
+            codec = stream.get("codec_name", "?")
+            pix_fmt = stream.get("pix_fmt", "?")
+
+            if not should_transcode:
+                counts["already_ok"] += 1
+                print(
+                    "  " + colorize("OK", Colors.GREEN, use_color) +
+                    f"         {path} [{width}x{height} @ {format_fps(fps)} fps, {codec}, {pix_fmt}]"
+                )
+                continue
+
+            print(
+                "  " + colorize("CHECK", Colors.YELLOW, use_color) +
+                f"      {path} [{width}x{height} @ {format_fps(fps)} fps, {codec}, {pix_fmt}]\n"
+                f"             reasons: {', '.join(reasons)}"
+            )
+
+            if transcode_video(
+                path,
+                stream=stream,
+                info=info,
+                max_width=args.max_width,
+                max_height=args.max_height,
+                max_fps=max_fps,
+                crf=args.crf,
+                preset=args.preset,
+                dry_run=args.dry_run,
+                use_color=use_color,
+            ):
+                counts["transcoded"] += 1
+            else:
+                counts["failed"] += 1
+
+        except Exception as exc:
+            counts["failed"] += 1
+            print("  " + colorize("FAILED", Colors.RED, use_color) + f"   {path}\n             {exc}")
+
+    print("\n" + colorize("Summary", Colors.BOLD, use_color))
+    print(f"  Files scanned: {counts['files']}")
+    print(f"  Static images: {counts['images']} (left untouched)")
+    print(f"  Videos found:  {counts['videos']}")
+    print(f"  Already fine:  {counts['already_ok']}")
+    print(f"  Transcoded:    {counts['transcoded']}")
+    print(f"  Skipped:       {counts['skipped']}")
+    print(f"  Failed:        {counts['failed']}")
+
+    return 1 if counts["failed"] else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

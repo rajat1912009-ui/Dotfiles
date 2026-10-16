@@ -1,7 +1,11 @@
 pragma ComponentBehavior: Bound
 
+import QtQuick
 import QtQuick.Layouts
 import Caelestia.Config
+import Caelestia.I18n
+import qs.components
+import qs.services
 import qs.modules.nexus.common
 
 PageBase {
@@ -14,10 +18,12 @@ PageBase {
             microphone: qsTr("Microphone"),
             network: qsTr("Network"),
             bluetooth: qsTr("Bluetooth"),
-            battery: qsTr("Battery")
+            battery: qsTr("Battery"),
+            peripheralBattery: qsTr("Peripheral battery"),
+            notifications: qsTr("Notifications")
         })
 
-    title: qsTr("Status icons")
+    title: Tr.tr("Status icons")
     isSubPage: true
 
     ColumnLayout {
@@ -27,9 +33,25 @@ PageBase {
         spacing: Tokens.spacing.extraSmall / 2
 
         // Visible icons
-        SectionHeader {
-            first: true
-            text: qsTr("Visible icons")
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: Tokens.padding.small
+
+            StyledText {
+                text: qsTr("Visible icons")
+                color: Colours.palette.m3onSurfaceVariant
+                font: Tokens.font.label.medium
+                elide: Text.ElideRight
+            }
+
+            PerMonitorStatusChip {
+                configNode: root.targetConfig.bar
+                propertyName: "statusIcons"
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
         }
 
         ListEditor {
@@ -47,10 +69,19 @@ PageBase {
 
             z: 1
             first: true
-            values: Config.bar.statusIcons.values
-            onItemMoved: (from, to) => GlobalConfig.bar.statusIcons.move(from, to)
-            onItemRemoved: index => GlobalConfig.bar.statusIcons.remove(index)
-            onItemToggled: (index, checked) => GlobalConfig.bar.statusIcons.at(index).enabled = checked
+            values: root.targetConfig.bar.statusIcons.values
+            onItemMoved: (from, to) => {
+                root.targetConfig.bar.statusIcons.move(from, to);
+                root.targetConfig.save();
+            }
+            onItemRemoved: index => {
+                root.targetConfig.bar.statusIcons.remove(index);
+                root.targetConfig.save();
+            }
+            onItemToggled: (index, checked) => {
+                root.targetConfig.bar.statusIcons.at(index).enabled = checked;
+                root.targetConfig.save();
+            }
         }
 
         DialogSelectButton {
@@ -58,9 +89,9 @@ PageBase {
 
             rootParent: root.flickable
             icon: "add"
-            label: qsTr("Add entry")
-            header: qsTr("Add new entry")
-            acceptLabel: qsTr("Add")
+            label: Tr.tr("Add entry")
+            header: Tr.tr("Add new entry")
+            acceptLabel: Tr.trCtx("Add", "button")
 
             model: {
                 const builtins = Object.keys(root.builtinIcons).map(k => ({
@@ -74,16 +105,17 @@ PageBase {
                 if (!selectedItem) // Should never happen but just in case
                     return;
 
-                GlobalConfig.bar.statusIcons.insert({
+                root.targetConfig.bar.statusIcons.insert({
                     id: selectedItem,
                     enabled: true
                 });
+                root.targetConfig.save();
             }
         }
 
         // Behaviour
         SectionHeader {
-            text: qsTr("Behaviour")
+            text: Tr.tr("Behaviour")
         }
 
         ToggleRow {
@@ -91,8 +123,13 @@ PageBase {
             last: true
             text: qsTr("Popout on hover")
             subtext: qsTr("Show a details popout when hovering the status icons")
-            checked: Config.bar.popouts.statusIcons
-            onToggled: GlobalConfig.bar.popouts.statusIcons = checked
+            configNode: root.targetConfig.bar.popouts
+            propertyName: "statusIcons"
+            checked: root.targetConfig.bar.popouts.statusIcons
+            onToggled: {
+                root.targetConfig.bar.popouts.statusIcons = checked;
+                root.targetConfig.save();
+            }
         }
     }
 }

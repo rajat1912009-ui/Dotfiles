@@ -1,8 +1,10 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import Quickshell.Io
 import M3Shapes
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.components.effects
 import qs.components.filedialog
@@ -21,7 +23,7 @@ Item {
     anchors.fill: parent
     anchors.margins: Tokens.padding.large
 
-    Behavior on pfpFallbackColour {
+    Behavior on opacity {
         CAnim {}
     }
 
@@ -39,7 +41,7 @@ Item {
 
             anchors.centerIn: parent
             implicitSize: parent.height
-            shape: MaterialShape.Pill
+            shape: GlobalConfig.dashboard.profilePicShape
             color: Qt.alpha(root.pfpFallbackColour, 1)
             opacity: root.pfpFallbackColour.a
             layer.enabled: true
@@ -201,7 +203,8 @@ Item {
         anchors.leftMargin: Tokens.spacing.small
         anchors.verticalCenterOffset: Math.round(fontInfo.pointSize * 0.1)
 
-        text: "up " + SysInfo.uptime.split(",").slice(0, 2).join(",") // Max 2 components
+        // TRANSLATORS: %1 = system uptime, e.g. "2 days, 3 hours"
+        text: Tr.trCtx("up %1", "system uptime").arg(SysInfo.uptimeShort)
         width: Tokens.sizes.dashboard.userWidth - x - Tokens.padding.extraLarge
         elide: Text.ElideRight
     }
@@ -254,6 +257,7 @@ Item {
             MaterialIcon {
                 id: wmIcon
 
+                visible: !Config.dashboard.showHyprlandSplash
                 anchors.verticalCenter: parent.verticalCenter
                 text: "select_window"
                 color: Colours.palette.m3onSecondaryContainer
@@ -264,11 +268,12 @@ Item {
                 id: wmText
 
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.verticalCenterOffset: Math.round(fontInfo.pointSize * 0.1)
-                text: SysInfo.wm + "..."
+                text: Config.dashboard.showHyprlandSplash && SysInfo.hyprlandSplashText !== "" ? SysInfo.hyprlandSplashText : SysInfo.wm + "..."
                 color: Colours.palette.m3onSecondaryContainer
                 font: Tokens.font.body.builders.small.vaxis("slnt", -4).build()
-                width: Math.min(implicitWidth, Tokens.sizes.dashboard.userWidth - wmContainer.x - Tokens.padding.medium * 2 - wmIcon.implicitWidth - wmLabel.spacing - Tokens.padding.extraLarge)
+                width: Math.min(implicitWidth, Tokens.sizes.dashboard.userWidth - wmContainer.x - Tokens.padding.medium * 2 - (wmIcon.visible ? wmIcon.implicitWidth + wmLabel.spacing : 0) - Tokens.padding.extraLarge)
+                wrapMode: Config.dashboard.showHyprlandSplash ? Text.WordWrap : Text.NoWrap
+                maximumLineCount: Config.dashboard.showHyprlandSplash ? 2 : 1
                 elide: Text.ElideRight
             }
         }

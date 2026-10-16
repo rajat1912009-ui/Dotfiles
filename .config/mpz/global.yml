@@ -1,0 +1,23 @@
+__app_version__: 2.1.6
+columns_config:
+  - align: left
+    field: artist
+    stretch: false
+    width_percent: 28
+  - align: left
+    field: album
+    stretch: false
+    width_percent: 28
+  - align: left
+    field: title
+    stretch: false
+    width_percent: 28
+  - align: right
+    field: year
+    stretch: false
+    width_percent: 5
+  - align: right
+    field: length
+    stretch: true
+    width_percent: 0
+stream_buffer_size: 262144

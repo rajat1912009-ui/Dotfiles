@@ -1,12 +1,14 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import Caelestia
 import Caelestia.Config
 import QtQuick.Effects
 import M3Shapes
 import qs.components
 import qs.components.images
 import qs.services
+import qs.utils
 
 Item {
     id: root
@@ -15,6 +17,24 @@ Item {
     property Item current: null
     property bool completed
     property string settledSource: ""
+    property var screen: null
+    property bool weActive: false
+    property string weDir: ""
+
+    function checkWE(path: string): void {
+        if (!path) {
+            weActive = false;
+            return;
+        }
+        let dir = path.substring(0, path.lastIndexOf('/'));
+        let projJson = dir + "/project.json";
+        if (CUtils.fileExists(projJson)) {
+            weDir = dir;
+            weActive = true;
+        } else {
+            weActive = false;
+        }
+    }
 
     readonly property string currentSchemeName: (Colours.showPreview ? Colours["previewScheme"] : Colours.scheme) || ""
     readonly property string currentVariantName: (Colours.showPreview ? Colours["previewVariant"] : Colours.variant) || ""
@@ -44,6 +64,7 @@ Item {
     }
 
     onSourceChanged: {
+        checkWE(source);
         coalesceTimer.restart();
     }
 
@@ -90,6 +111,7 @@ Item {
 
     Component.onCompleted: {
         if (source) {
+            checkWE(source);
             settledSource = source;
             one.path = settledSource;
             one.state = "active";
@@ -122,26 +144,18 @@ Item {
         property string path: ""
         state: "inactive"
 
+        readonly property bool isGif: img.verifiedPath.toLowerCase().endsWith(".gif")
         readonly property bool isVideo: Wallpapers.isVideo(path)
         readonly property bool animsEnabled: !!Wallpapers.enableAnimation
         readonly property string verifiedPath: path || ""
         readonly property int fadeMs: 400
 
         property bool renderActive: false
-        property bool pendingVideoAnim: false
 
         readonly property bool isPlayerPlaying: !!(videoChannelLoader.item && videoChannelLoader.item["playing"])
 
         anchors.fill: parent
         opacity: 0
-
-        onIsPlayerPlayingChanged: {
-            if (isPlayerPlaying && pendingVideoAnim && isVideo && animsEnabled && state === "active") {
-                pendingVideoAnim = false;
-                maskRadius = 0;
-                maskAnim.restart();
-            }
-        }
 
         Timer {
             id: cleanupTimer
@@ -181,7 +195,7 @@ Item {
             Transition {
                 from: "inactive"
                 to: "active"
-                enabled: root.completed
+                enabled: root.completed && !img.animsEnabled
                 NumberAnimation {
                     property: "opacity"
                     duration: img.fadeMs
@@ -194,27 +208,18 @@ Item {
             if (state === "active") {
                 cleanupTimer.stop();
                 if (animsEnabled && root.completed) {
-                    if (isVideo) {
-                        pendingVideoAnim = true;
-                        maskRadius = 0;
-                    } else {
-                        pendingVideoAnim = false;
-                        maskRadius = 0;
-                        maskAnim.restart();
-                    }
+                    maskRadius = 0;
+                    maskAnim.restart();
                 } else {
-                    pendingVideoAnim = false;
                     maskRadius = maxRadius;
                 }
             } else if (state === "background") {
-                pendingVideoAnim = false;
                 cleanupTimer.restart();
                 if (animsEnabled) {
                     maskRadius = maxRadius;
                     currentShape = root.shapes[Math.floor(Math.random() * root.shapes.length)];
                 }
             } else {
-                pendingVideoAnim = false;
                 cleanupTimer.stop();
             }
         }
@@ -265,7 +270,7 @@ Item {
             }
         }
         
-        readonly property bool hasReadyContent: isVideo ? isPlayerPlaying : (thumbImg.status === Image.Ready)
+        readonly property bool hasReadyContent: thumbImg.status === Image.Ready || isPlayerPlaying || gifImg.status === Image.Ready
         readonly property bool needsMask: animsEnabled && img.z === 1 && hasReadyContent && img.maskRadius < (img.maxRadius - 1.5) && !!maskLoader.item
 
         Component.onCompleted: maskRadius = maxRadius
@@ -273,6 +278,7 @@ Item {
         Item {
             id: contentItem
             anchors.fill: parent
+            opacity: root.weActive ? 0 : 1
 
             layer.enabled: img.needsMask || (root.shouldRecolor && img.renderActive)
             layer.effect: MultiEffect {
@@ -316,6 +322,22 @@ Item {
                 }
             }
 
+            CachingAnimatedImage {
+                id: gifImg
+                anchors.fill: parent
+                // Only GIFs go through the animated-image path; videos are handled
+                // by the video channel loader below and must never reach AnimatedImage.
+                path: img.isGif ? img.verifiedPath : ""
+                playing: !WallpaperPauser.paused
+                visible: img.isGif && !img.isVideo
+                asynchronous: true
+
+                onStatusChanged: {
+                    if (status === Image.Ready && img.isGif && img.verifiedPath === root.settledSource)
+                        root.current = img;
+                }
+            }
+
             CachingImage {
                 id: thumbImg
                 anchors.fill: parent
@@ -330,11 +352,11 @@ Item {
                     return img.verifiedPath;
                 }
 
-                visible: !img.isVideo || (!img.isPlayerPlaying && videoChannelLoader.status !== Loader.Ready)
+                visible: (!img.isVideo && !img.isGif) || (img.isVideo && !img.isPlayerPlaying && videoChannelLoader.status !== Loader.Ready)
                 asynchronous: true
 
                 onStatusChanged: {
-                    if (status === Image.Ready && !img.isVideo && img.verifiedPath === root.settledSource)
+                    if (status === Image.Ready && !img.isVideo && !img.isGif && img.verifiedPath === root.settledSource)
                         root.current = img;
                 }
             }

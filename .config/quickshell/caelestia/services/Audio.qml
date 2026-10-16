@@ -1,11 +1,13 @@
 pragma Singleton
 
 import QtQuick
+import QtMultimedia
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pipewire
 import Caelestia
 import Caelestia.Config
+import Caelestia.I18n
 import Caelestia.Services
 
 Singleton {
@@ -100,9 +102,53 @@ Singleton {
 
     function getStreamName(stream: PwNode): string {
         if (!stream)
-            return qsTr("Unknown");
+            return Tr.trCtx("Unknown", "unknown audio stream");
         // Try application name first, then description, then name
-        return stream.properties["application.name"] || stream.description || stream.name || qsTr("Unknown Application");
+        return stream.properties["application.name"] || stream.description || stream.name || Tr.trCtx("Unknown application", "unknown application audio stream");
+    }
+
+    function playSound(sfx: SoundEffect, setting: bool): void {
+        if (!GlobalConfig.audio.sounds.enabled || !setting)
+            return;
+        sfx.play();
+    }
+
+    function playNotification(): void {
+        if (GlobalConfig.audio.sounds.enabled) {
+            notificationSound.play();
+        }
+    }
+
+    function playCameraClick(): void {
+        playSound(sfxCameraClick, GlobalConfig.audio.sounds.cameraClick);
+    }
+
+    function playChargingStarted(): void {
+        playSound(sfxChargingStarted, GlobalConfig.audio.sounds.chargingStarted);
+    }
+
+    function playEffectTick(): void {
+        playSound(sfxEffectTick, GlobalConfig.audio.sounds.effectTick);
+    }
+
+    function playLock(): void {
+        playSound(sfxLock, GlobalConfig.audio.sounds.lock);
+    }
+
+    function playUnlock(): void {
+        playSound(sfxUnlock, GlobalConfig.audio.sounds.unlock);
+    }
+
+    function playLowBattery(): void {
+        playSound(sfxLowBattery, GlobalConfig.audio.sounds.lowBattery);
+    }
+
+    function playVideoRecord(): void {
+        playSound(sfxVideoRecord, GlobalConfig.audio.sounds.screenRecord);
+    }
+
+    function playVideoStop(): void {
+        playSound(sfxVideoStop, GlobalConfig.audio.sounds.screenRecord);
     }
 
     function refreshNodes(): void {
@@ -130,10 +176,10 @@ Singleton {
         if (!sink?.ready)
             return;
 
-        const newSinkName = sink.description || sink.name || qsTr("Unknown Device");
+        const newSinkName = sink.description || sink.name || Tr.trCtx("Unknown device", "unknown audio device");
 
         if (previousSinkName && previousSinkName !== newSinkName && GlobalConfig.utilities.toasts.audioOutputChanged)
-            Toaster.toast(qsTr("Audio output changed"), qsTr("Now using: %1").arg(newSinkName), "volume_up");
+            Toaster.toast(Tr.tr("Audio output changed"), Tr.tr("Now using: %1").arg(newSinkName), "volume_up");
 
         previousSinkName = newSinkName;
     }
@@ -142,10 +188,10 @@ Singleton {
         if (!source?.ready)
             return;
 
-        const newSourceName = source.description || source.name || qsTr("Unknown Device");
+        const newSourceName = source.description || source.name || Tr.trCtx("Unknown device", "unknown audio device");
 
         if (previousSourceName && previousSourceName !== newSourceName && GlobalConfig.utilities.toasts.audioInputChanged)
-            Toaster.toast(qsTr("Audio input changed"), qsTr("Now using: %1").arg(newSourceName), "mic");
+            Toaster.toast(Tr.tr("Audio input changed"), Tr.tr("Now using: %1").arg(newSourceName), "mic");
 
         previousSourceName = newSourceName;
     }
@@ -154,8 +200,8 @@ Singleton {
     // lazily-loaded singleton is created, so onValuesChanged would never fire.
     Component.onCompleted: {
         refreshNodes();
-        previousSinkName = sink?.description || sink?.name || qsTr("Unknown Device");
-        previousSourceName = source?.description || source?.name || qsTr("Unknown Device");
+        previousSinkName = sink?.description || sink?.name || Tr.trCtx("Unknown device", "unknown audio device");
+        previousSourceName = source?.description || source?.name || Tr.trCtx("Unknown device", "unknown audio device");
     }
 
     Connections {
@@ -188,5 +234,68 @@ Singleton {
         }
 
         target: "audio"
+    }
+
+    SoundEffect {
+        id: sfxCameraClick
+
+        source: Qt.resolvedUrl("../assets/sounds/camera_click.wav")
+        volume: GlobalConfig.audio.sounds.sfxVolume
+    }
+
+    SoundEffect {
+        id: sfxChargingStarted
+
+        source: Qt.resolvedUrl("../assets/sounds/ChargingStarted.wav")
+        volume: GlobalConfig.audio.sounds.sfxVolume
+    }
+
+    SoundEffect {
+        id: sfxEffectTick
+
+        source: Qt.resolvedUrl("../assets/sounds/Effect_Tick.wav")
+        volume: GlobalConfig.audio.sounds.sfxVolume
+    }
+
+    SoundEffect {
+        id: sfxLock
+
+        source: Qt.resolvedUrl("../assets/sounds/Lock.wav")
+        volume: GlobalConfig.audio.sounds.sfxVolume
+    }
+
+    SoundEffect {
+        id: sfxUnlock
+
+        source: Qt.resolvedUrl("../assets/sounds/Unlock.wav")
+        volume: GlobalConfig.audio.sounds.sfxVolume
+    }
+
+    SoundEffect {
+        id: sfxLowBattery
+
+        source: Qt.resolvedUrl("../assets/sounds/LowBattery.wav")
+        volume: GlobalConfig.audio.sounds.sfxVolume
+    }
+
+    SoundEffect {
+        id: sfxVideoRecord
+
+        source: Qt.resolvedUrl("../assets/sounds/VideoRecord.wav")
+        volume: GlobalConfig.audio.sounds.sfxVolume
+    }
+
+    SoundEffect {
+        id: sfxVideoStop
+
+        source: Qt.resolvedUrl("../assets/sounds/VideoStop.wav")
+        volume: GlobalConfig.audio.sounds.sfxVolume
+    }
+
+    SoundEffect {
+        id: notificationSound
+
+        source: Qt.resolvedUrl("../assets/sounds/notifications/" + GlobalConfig.audio.sounds.notificationSound)
+        volume: GlobalConfig.audio.sounds.notificationVolume
     }
 }

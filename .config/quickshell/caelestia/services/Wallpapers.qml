@@ -4,6 +4,7 @@ import QtQuick
 import QtCore
 import Quickshell
 import Quickshell.Io
+import Caelestia
 import Caelestia.Config
 import Caelestia.Models
 import qs.services
@@ -68,7 +69,7 @@ Searcher {
         let clean = String(path || "").split(/[?#]/)[0];
         if (clean.indexOf("file://") === 0) clean = clean.substring(7);
         let b = buster !== undefined ? buster : cacheBuster;
-        return "file://" + Paths.cache + "/videothumbs/" + djb2_hash(clean) + ".jpg" + (b ? "?v=" + b : "");
+        return Paths.cache + "/videothumbs/" + djb2_hash(clean) + ".jpg" + (b ? "?v=" + b : "");
     }
 
     function isVideo(path: string): bool {
@@ -79,20 +80,55 @@ Searcher {
         return validVideoExtensions.includes(ext);
     }
 
-    function indexOf(path: string): int {
-        if (!path) return -1;
-        let clean = String(path).split(/[?#]/)[0];
-        if (clean.indexOf("file://") === 0) clean = clean.substring(7);
-
-        for (let i = 0; i < list.length; i++) {
-            let p = String(list[i].path || "").split(/[?#]/)[0];
-            if (p.indexOf("file://") === 0) p = p.substring(7);
-            if (p === clean) return i;
+    readonly property var categories: {
+        let dummy = root.list;
+        const baseDir = Paths.wallsdir;
+        let cats = [];
+        for (let i = 0; i < root.list.length; i++) {
+            let p = root.list[i].parentDir;
+            if (p.includes("steamapps/workshop/content/431960")) {
+                let cat = "Wallpaper Engine";
+                if (!cats.includes(cat)) cats.push(cat);
+                continue;
+            }
+            if (p !== baseDir) {
+                let cat = p.slice(baseDir.length + 1);
+                if (cat.includes("/")) cat = cat.slice(0, cat.indexOf("/"));
+                if (!cats.includes(cat)) cats.push(cat);
+            }
         }
-        return -1;
+        return ["Main"].concat(cats.sort());
+    }
+
+    readonly property var grouped: {
+        let dummy = root.list;
+        const baseDir = Paths.wallsdir;
+        let grp = { "Main": [] };
+        for (let i = 0; i < root.list.length; i++) {
+            let w = root.list[i];
+            let p = w.parentDir;
+            if (p.includes("steamapps/workshop/content/431960")) {
+                let cat = "Wallpaper Engine";
+                if (!grp[cat]) grp[cat] = [];
+                grp[cat].push(w);
+                continue;
+            }
+            if (p === baseDir) {
+                grp["Main"].push(w);
+            } else {
+                let cat = p.slice(baseDir.length + 1);
+                if (cat.includes("/")) cat = cat.slice(0, cat.indexOf("/"));
+                if (!grp[cat]) grp[cat] = [];
+                grp[cat].push(w);
+            }
+        }
+        return grp;
     }
 
     function getCategoryFor(w: FileSystemEntry): string {
+        if (w.parentDir.includes("steamapps/workshop/content/431960")) {
+            return "Wallpaper Engine";
+        }
         let category = w.parentDir.slice(Paths.wallsdir.length + 1);
         if (category.includes("/"))
             category = category.slice(0, category.indexOf("/"));
@@ -144,33 +180,43 @@ Searcher {
         if (clean.indexOf("file://") === 0) clean = clean.substring(7);
         if (!clean) return;
 
-        actualCurrent = clean;
+        let targetPath = clean;
+        if (path.endsWith("project.json")) {
+            let content = CUtils.readFile(path);
+            try {
+                let json = JSON.parse(content);
+                if (json.preview) {
+                    targetPath = path.substring(0, path.length - 12) + json.preview;
+                }
+            } catch (e) {
+                console.warn("Failed to parse project.json:", e);
+            }
+        }
+
+        actualCurrent = targetPath;
         isTrackingRollback = false;
 
-        // Hold the preview palette locked while the backend executes
         previewColourLock = true;
         pendingPreviewClear = false;
-        
-        if (isVideo(clean)) {
-            lastAnimated = clean;
+
+        if (isVideo(targetPath)) {
+            lastAnimated = targetPath;
             wallpaperMode = "animated";
-            // Save animated path to disk
-            Quickshell.execDetached(["sh", "-c", "mkdir -p '" + Paths.state + "/wallpaper' && echo '" + clean + "' > '" + Paths.state + "/wallpaper/last_animated.txt'"]);
+            Quickshell.execDetached(["sh", "-c", "mkdir -p '" + Paths.state + "/wallpaper' && echo '" + targetPath + "' > '" + Paths.state + "/wallpaper/last_animated.txt'"]);
         } else {
-            lastStatic = clean;
+            lastStatic = targetPath;
             wallpaperMode = "static";
-            // Save static path to disk
-            Quickshell.execDetached(["sh", "-c", "mkdir -p '" + Paths.state + "/wallpaper' && echo '" + clean + "' > '" + Paths.state + "/wallpaper/last_static.txt'"]);
+            Quickshell.execDetached(["sh", "-c", "mkdir -p '" + Paths.state + "/wallpaper' && echo '" + targetPath + "' > '" + Paths.state + "/wallpaper/last_static.txt'"]);
         }
 
         stopPreview();
-        
-        Quickshell.execDetached(["caelestia", "wallpaper", "-f", clean, ...smartArg]);
+
+        Quickshell.execDetached(["caelestia", "wallpaper", "-f", targetPath, ...smartArg]);
     }
 
     function preview(path: string): void {
         captureRollbackState();
-        
+
         let clean = String(path || "").split(/[?#]/)[0];
         if (clean.indexOf("file://") === 0) clean = clean.substring(7);
         if (!clean) return;
@@ -210,21 +256,51 @@ Searcher {
         }
     }
 
+    function getThumbnailPath(path: string): string {
+        if (path.endsWith("project.json")) {
+            let content = CUtils.readFile(path);
+            try {
+                let json = JSON.parse(content);
+                if (json.preview) {
+                    return path.substring(0, path.length - 12) + json.preview;
+                }
+            } catch (e) {
+                console.warn("Failed to parse project.json:", e);
+            }
+            return path;
+        }
+        if (isVideo(path)) {
+            return getWallpaperThumb(path);
+        }
+        return path;
+    }
+
     onPreviewColourLockChanged: {
         if (!previewColourLock && pendingPreviewClear) {
             colorReleaseTimer.restart();
         }
     }
 
-    list: wallpaperMode === "animated" ? animatedWallpapers.entries : staticWallpapers.entries
+    list: wallpapers.entries
     key: "relativePath"
     useFuzzy: GlobalConfig.launcher.useFuzzy.wallpapers
-    extraOpts: useFuzzy ? ({}) : ({ forward: false })
+    extraOpts: useFuzzy ? ({}) : ({
+            forward: false
+        })
 
     IpcHandler {
-        function get(): string { return root.actualCurrent; }
-        function set(path: string): void { root.setWallpaper(path); }
-        function list(): string { return root.list.map(w => w.path).join("\n"); }
+        function get(): string {
+            return root.actualCurrent;
+        }
+
+        function set(path: string): void {
+            root.setWallpaper(path);
+        }
+
+        function list(): string {
+            return root.list.map(w => w.path).join("\n");
+        }
+
         target: "wallpaper"
     }
 
@@ -252,7 +328,6 @@ Searcher {
             root.actualCurrent = wall;
             root.previewColourLock = false;
 
-            // Set initial wallpaper mode based on current file type on boot
             if (root.isVideo(root.actualCurrent)) {
                 wallpaperMode = "animated";
                 if (!root.lastAnimated) root.lastAnimated = wall;
@@ -268,7 +343,6 @@ Searcher {
         }
     }
 
-    // Read persisted static wallpaper state on startup
     FileView {
         path: `${Paths.state}/wallpaper/last_static.txt`
         printErrors: false
@@ -277,8 +351,7 @@ Searcher {
             if (val) root.lastStatic = val;
         }
     }
-    
-    // Read persisted animated wallpaper state on startup
+
     FileView {
         path: `${Paths.state}/wallpaper/last_animated.txt`
         printErrors: false
@@ -288,22 +361,56 @@ Searcher {
         }
     }
 
-    FileSystemModel {
-        id: staticWallpapers
+    function updateCombinedList() {
+        let arr = [];
+        for (let i = 0; i < wallpapers.entries.length; i++) {
+            arr.push(wallpapers.entries[i]);
+        }
+        for (let i = 0; i < weWallpapers.entries.length; i++) {
+            arr.push(weWallpapers.entries[i]);
+        }
+        root.list = arr;
+    }
+
+    property alias weVolume: weAdapter.volume
+    property alias weSilent: weAdapter.silent
+    onWeVolumeChanged: weStore.writeAdapter()
+    onWeSilentChanged: weStore.writeAdapter()
+    
+    Component.onCompleted: CUtils.mkdirp(Paths.state + "/wallpaper")
+
+    FileView {
+        id: weStore
+
+        path: `${Paths.state}/wallpaper/wallpaper-engine.json`
+        printErrors: false
         watchChanges: true
-        recursive: true
-        path: Paths.wallsdir
-        filter: FileSystemModel.Files
-        nameFilters: ["*.jpg", "*.jpeg", "*.png", "*.webp", "*.tif", "*.tiff", "*.svg", "*.gif"]
+        onFileChanged: reload()
+
+        JsonAdapter {
+            id: weAdapter
+
+            property real volume: 0.15
+            property bool silent: false
+        }
     }
 
     FileSystemModel {
-        id: animatedWallpapers
-        watchChanges: true
+        id: wallpapers
         recursive: true
-        path: Paths.wallsdir + "/Animated"
+        path: Paths.wallsdir
         filter: FileSystemModel.Files
-        nameFilters: ["*.mp4", "*.webm", "*.mkv"]
+        nameFilters: Array.from(Images.validImageExtensions).concat(Array.from(Images.validVideoExtensions)).map(e => `*.${e}`).concat(["project.json"])
+        onEntriesChanged: root.updateCombinedList()
+    }
+
+    FileSystemModel {
+        id: weWallpapers
+        recursive: true
+        path: Quickshell.env("HOME") + "/.local/share/Steam/steamapps/workshop/content/431960"
+        filter: FileSystemModel.Files
+        nameFilters: ["project.json"]
+        onEntriesChanged: root.updateCombinedList()
     }
 
     Process {
@@ -330,7 +437,7 @@ Searcher {
                         Colours.load(raw, true);
                         Colours.showPreview = true;
                     } catch (e) {
-                        // Ignore incomplete or invalid output during cancellation
+                        // Ignore incomplete or invalid output
                     }
                 }
 

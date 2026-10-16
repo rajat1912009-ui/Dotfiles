@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+data="$HOME/.local/share/emoji-picker/emojis.txt"
+
+[[ -r "$data" ]] || exit 1
+
+selection=$(fuzzel --dmenu --prompt='Emoji > ' < "$data") || exit 0
+[[ -n "$selection" ]] || exit 0
+
+glyph="${selection%% *}"
+printf '%s' "$glyph" | wl-copy

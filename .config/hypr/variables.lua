@@ -8,8 +8,8 @@ return {
     -- Apps
     terminal                   = "kitty",
     browser                    = "zen-browser",
-    editor                     = "codium",
-    fileExplorer               = "nemo",
+    editor                     = "nvim",
+    fileExplorer               = "thunar",
     audioSettings              = "pavucontrol",
 
     -- Touchpad

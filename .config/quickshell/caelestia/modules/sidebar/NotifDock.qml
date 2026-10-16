@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.components.containers
 import qs.components.controls
@@ -18,6 +19,8 @@ Item {
     required property Props props
     required property ScreenState screenState
     readonly property int notifCount: Notifs.list.reduce((acc, n) => n.closed ? acc : acc + 1, 0)
+
+    property bool gameActive: false
 
     anchors.fill: parent
     anchors.margins: Tokens.padding.medium
@@ -65,7 +68,8 @@ Item {
             anchors.right: parent.right
             anchors.leftMargin: Tokens.spacing.extraSmall
 
-            text: root.notifCount > 0 ? qsTr("notification%1").arg(root.notifCount === 1 ? "" : "s") : qsTr("Notifications")
+            // TRANSLATORS: the count itself is rendered separately, immediately to the left
+            text: root.notifCount > 0 ? Tr.trCtxN("notification", "notifications", root.notifCount, "notification count label, number shown separately") : Tr.tr("Notifications")
             color: Colours.palette.m3outline
             font: Tokens.font.label.large
             elide: Text.ElideRight
@@ -85,10 +89,11 @@ Item {
         color: "transparent"
 
         Loader {
+            z: 1
             asynchronous: true
             anchors.centerIn: parent
             active: opacity > 0
-            opacity: root.notifCount > 0 ? 0 : 1
+            opacity: root.notifCount > 0 || root.gameActive ? 0 : 1
 
             sourceComponent: ColumnLayout {
                 spacing: Tokens.spacing.extraLarge
@@ -104,11 +109,17 @@ Item {
                         colorizationColor: Colours.palette.m3outlineVariant
                         brightness: 1
                     }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: root.gameActive = true
+                    }
                 }
 
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("All up to date!")
+                    text: Tr.tr("All up to date!")
                     color: Colours.palette.m3outlineVariant
                     font: Tokens.font.headline.builders.small.width(90).build()
                 }
@@ -125,6 +136,7 @@ Item {
             id: view
 
             anchors.fill: parent
+            visible: !root.gameActive
 
             flickableDirection: Flickable.VerticalFlick
             contentWidth: width
@@ -140,6 +152,16 @@ Item {
                 props: root.props
                 screenState: root.screenState
                 container: view
+            }
+        }
+
+        Loader {
+            z: 2
+            anchors.fill: parent
+            active: root.gameActive
+            visible: active
+            sourceComponent: DinoGame {
+                onExit: root.gameActive = false
             }
         }
     }
